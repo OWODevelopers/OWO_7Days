@@ -12,7 +12,7 @@ using static AstarManager;
 using System.Runtime.Remoting.Lifetime;
 using System.Security.Policy;
 
-namespace Days_bhaptics
+namespace OWO_7Days
 {
     [BepInPlugin("org.bepinex.plugins.7Days_bhaptics", "7Days_bhaptics integration", "1.4")]
     public class Plugin : BaseUnityPlugin
