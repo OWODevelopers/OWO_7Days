@@ -20,7 +20,7 @@ namespace Days_bhaptics
 #pragma warning disable CS0109 // Remove unnecessary warning
         internal static new ManualLogSource Log;
 #pragma warning restore CS0109
-        public static TactsuitVR tactsuitVr;
+        public static OWOSkin tactsuitVr;
         public static bool startedHeart = false;
         public static float currentHealth = 0;
         public static bool inventoryOpened = false;
@@ -33,7 +33,7 @@ namespace Days_bhaptics
             Log = base.Logger;
             // Plugin startup logic
             Logger.LogMessage("Plugin 7Days_bhaptics is loaded!");
-            tactsuitVr = new TactsuitVR();
+            tactsuitVr = new OWOSkin();
             // one startup heartbeat so you know the vest works correctly
             tactsuitVr.PlaybackHaptics("HeartBeat");
             // patch all functions
@@ -113,7 +113,7 @@ namespace Days_bhaptics
 
             if (_damageSource.damageSource == EnumDamageSource.External)
             {
-                KeyValuePair<float, float> coord = TactsuitVR.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
+                KeyValuePair<float, float> coord = OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
                 Plugin.tactsuitVr.PlayBackHit("Impact", coord.Key, coord.Value);
             }
             else
@@ -396,13 +396,13 @@ namespace Days_bhaptics
                     case MinEventTypes.onSelfWaterSubmerge:
                         Plugin.tactsuitVr.PlaybackHaptics("EnterWater_Arms");
                         Plugin.tactsuitVr.PlaybackHaptics("EnterWater_Vest");
-                        TactsuitVR.headUnderwater = true;
+                        OWOSkin.headUnderwater = true;
                         break;
 
                     case MinEventTypes.onSelfWaterSurface:
                         Plugin.tactsuitVr.PlaybackHaptics("ExitWater_Arms");
                         Plugin.tactsuitVr.PlaybackHaptics("ExitWater_Vest");
-                        TactsuitVR.headUnderwater = false;
+                        OWOSkin.headUnderwater = false;
                         break;
 
                     case MinEventTypes.onSelfPrimaryActionRayHit:

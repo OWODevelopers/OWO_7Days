@@ -10,7 +10,7 @@ using UnityEngine;
 namespace MyBhapticsTactsuit
 {
 
-    public class TactsuitVR
+    public class OWOSkin
     {
         public bool suitDisabled = true;
         public bool systemInitialized = false;
@@ -53,7 +53,7 @@ namespace MyBhapticsTactsuit
             }
         }
 
-        public TactsuitVR()
+        public OWOSkin()
         {
 
             LOG("Initializing suit");
