@@ -11,6 +11,7 @@ using DynamicMusic;
 using static AstarManager;
 using System.Runtime.Remoting.Lifetime;
 using System.Security.Policy;
+using OWOSkin;
 
 namespace OWO_7Days
 {
@@ -20,7 +21,7 @@ namespace OWO_7Days
 #pragma warning disable CS0109 // Remove unnecessary warning
         internal static new ManualLogSource Log;
 #pragma warning restore CS0109
-        public static OWOSkin tactsuitVr;
+        public static OWOSkin.OWOSkin owoSkin;
         public static bool startedHeart = false;
         public static float currentHealth = 0;
         public static bool inventoryOpened = false;
@@ -32,12 +33,12 @@ namespace OWO_7Days
             // Make my own logger so it can be accessed from the Tactsuit class
             Log = base.Logger;
             // Plugin startup logic
-            Logger.LogMessage("Plugin 7Days_bhaptics is loaded!");
-            tactsuitVr = new OWOSkin();
+            Logger.LogMessage("Plugin OWO_7Days is loaded!");
+            owoSkin = new OWOSkin.OWOSkin();
             // one startup heartbeat so you know the vest works correctly
-            tactsuitVr.PlaybackHaptics("HeartBeat");
+            owoSkin.Feel("HeartBeat", 0);
             // patch all functions
-            var harmony = new Harmony("bhaptics.patch.7days");
+            var harmony = new Harmony("owo.patch.7days");
             harmony.PatchAll();
         }
 
@@ -48,7 +49,7 @@ namespace OWO_7Days
                 if (!Plugin.startedHeart)
                 {
                     Plugin.startedHeart = true;
-                    Plugin.tactsuitVr.StartHeartBeat();
+                    Plugin.owoSkin.StartHeartBeat();
                 }
             }
             else
@@ -56,7 +57,7 @@ namespace OWO_7Days
                 if (Plugin.startedHeart)
                 {
                     Plugin.startedHeart = false;
-                    Plugin.tactsuitVr.StopHeartBeat();
+                    Plugin.owoSkin.StopHeartBeat();
                 }
             }
         }
@@ -80,7 +81,7 @@ namespace OWO_7Days
         {
             if(Traverse.Create(__instance).Field("gamePaused").GetValue<bool>())
             {
-                Plugin.tactsuitVr.StopAllHapticFeedback();
+                Plugin.owoSkin.StopAllHapticFeedback();
                 Plugin.startedHeart = false;
             }
             else
@@ -96,7 +97,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance, DamageSource _damageSource)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -113,8 +114,8 @@ namespace OWO_7Days
 
             if (_damageSource.damageSource == EnumDamageSource.External)
             {
-                KeyValuePair<float, float> coord = OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
-                Plugin.tactsuitVr.PlayBackHit("Impact", coord.Key, coord.Value);
+                KeyValuePair<float, float> coord = OWOSkin.OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
+                Plugin.owoSkin.PlayBackHit("Impact", coord.Key, coord.Value);
             }
             else
             {
@@ -122,59 +123,59 @@ namespace OWO_7Days
                 {
                     // Bloodloss
                     case EnumDamageTypes.BloodLoss:
-                        Plugin.tactsuitVr.PlaybackHaptics("bloodLossVest");
+                        Plugin.owoSkin.PlaybackHaptics("bloodLossVest");
                         break;
                     // electric
                     case EnumDamageTypes.Radiation:
-                        Plugin.tactsuitVr.PlaybackHaptics("electricVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricArms");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricHead");
+                        Plugin.owoSkin.PlaybackHaptics("electricVest");
+                        Plugin.owoSkin.PlaybackHaptics("electricArms");
+                        Plugin.owoSkin.PlaybackHaptics("electricHead");
                         break;
                     case EnumDamageTypes.Cold:
-                        Plugin.tactsuitVr.PlaybackHaptics("electricVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricArms");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricHead");
+                        Plugin.owoSkin.PlaybackHaptics("electricVest");
+                        Plugin.owoSkin.PlaybackHaptics("electricArms");
+                        Plugin.owoSkin.PlaybackHaptics("electricHead");
                         break;
                     case EnumDamageTypes.Heat:
-                        Plugin.tactsuitVr.PlaybackHaptics("electricVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricArms");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricHead");
+                        Plugin.owoSkin.PlaybackHaptics("electricVest");
+                        Plugin.owoSkin.PlaybackHaptics("electricArms");
+                        Plugin.owoSkin.PlaybackHaptics("electricHead");
                         break;
                     case EnumDamageTypes.Electrical:
-                        Plugin.tactsuitVr.PlaybackHaptics("electricVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricArms");
-                        Plugin.tactsuitVr.PlaybackHaptics("electricHead");
+                        Plugin.owoSkin.PlaybackHaptics("electricVest");
+                        Plugin.owoSkin.PlaybackHaptics("electricArms");
+                        Plugin.owoSkin.PlaybackHaptics("electricHead");
                         break;
                     // infection
                     case EnumDamageTypes.Toxic:
-                        Plugin.tactsuitVr.PlaybackHaptics("toxicVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("starvationVisor");
+                        Plugin.owoSkin.PlaybackHaptics("toxicVest");
+                        Plugin.owoSkin.PlaybackHaptics("starvationVisor");
                         break;
                     case EnumDamageTypes.Disease:
-                        Plugin.tactsuitVr.PlaybackHaptics("toxicVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("starvationVisor");
+                        Plugin.owoSkin.PlaybackHaptics("toxicVest");
+                        Plugin.owoSkin.PlaybackHaptics("starvationVisor");
                         break;
                     case EnumDamageTypes.Infection:
-                        Plugin.tactsuitVr.PlaybackHaptics("toxicVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("starvationVisor");
+                        Plugin.owoSkin.PlaybackHaptics("toxicVest");
+                        Plugin.owoSkin.PlaybackHaptics("starvationVisor");
                         break;
                     // stomach
                     case EnumDamageTypes.Starvation:
-                        Plugin.tactsuitVr.PlaybackHaptics("starvationVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("starvationVisor");
+                        Plugin.owoSkin.PlaybackHaptics("starvationVest");
+                        Plugin.owoSkin.PlaybackHaptics("starvationVisor");
                         break;
                     // lungs
                     case EnumDamageTypes.Suffocation:
-                        Plugin.tactsuitVr.PlaybackHaptics("suffocationVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("suffocationVisor");
+                        Plugin.owoSkin.PlaybackHaptics("suffocationVest");
+                        Plugin.owoSkin.PlaybackHaptics("suffocationVisor");
                         break;
                     case EnumDamageTypes.Dehydration:
-                        Plugin.tactsuitVr.PlaybackHaptics("dehydrationVest");
-                        Plugin.tactsuitVr.PlaybackHaptics("starvationVisor");
+                        Plugin.owoSkin.PlaybackHaptics("dehydrationVest");
+                        Plugin.owoSkin.PlaybackHaptics("starvationVisor");
                         break;
                     default:
-                        Plugin.tactsuitVr.PlaybackHaptics("Impact");
-                        Plugin.tactsuitVr.PlaybackHaptics("hurtvisor");
+                        Plugin.owoSkin.PlaybackHaptics("Impact");
+                        Plugin.owoSkin.PlaybackHaptics("hurtvisor");
                         break;
                 }
             }
@@ -187,7 +188,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -196,8 +197,8 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.tactsuitVr.PlaybackHaptics("RecoilArm_R");
-            Plugin.tactsuitVr.PlaybackHaptics("RecoilVest_R");
+            Plugin.owoSkin.Feel("RecoilArm_R", 0);
+            Plugin.owoSkin.Feel("RecoilVest_R", 0);
         }
     }
 
@@ -207,7 +208,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -216,8 +217,8 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.tactsuitVr.PlaybackHaptics("Death");
-            Plugin.tactsuitVr.StopThreads();
+            Plugin.owoSkin.Feel("Death", 4);
+            Plugin.owoSkin.StopAllHapticFeedback();
             Plugin.startedHeart = false;
         }
     }
@@ -228,7 +229,7 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -242,14 +243,14 @@ namespace OWO_7Days
 
             if ((float)__instance.Health - Plugin.currentHealth > 5)
             {
-                Plugin.tactsuitVr.PlaybackHaptics("Heal");
+                Plugin.owoSkin.Feel("Heal", 0);
             }
         }
 
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -268,7 +269,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance, MinEventTypes _eventType)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -281,17 +282,17 @@ namespace OWO_7Days
             switch (_eventType)
             {
                 case MinEventTypes.onSelfJump:
-                    Plugin.tactsuitVr.PlaybackHaptics("OnJump");
+                    Plugin.owoSkin.Feel("OnJump", 0);
                     break;
 
                 case MinEventTypes.onSelfRespawn:
-                    Plugin.tactsuitVr.StopThreads();
+                    Plugin.owoSkin.StopAllHapticFeedback();
                     Plugin.startedHeart = false;
                     Plugin.playerHasSpawned = true;
                     break;
 
                 case MinEventTypes.onSelfFirstSpawn:
-                    Plugin.tactsuitVr.StopThreads();
+                    Plugin.owoSkin.StopAllHapticFeedback();
                     Plugin.startedHeart = false;
                     Plugin.playerHasSpawned = true;
                     break; 
@@ -312,7 +313,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -325,11 +326,11 @@ namespace OWO_7Days
             int swimMode = Traverse.Create(__instance).Field("swimMode").GetValue<int>();
             if (swimMode > 0)
             {
-                Plugin.tactsuitVr.StartSwimming();
+                Plugin.owoSkin.StartSwimming();
             }
             else
             {
-                Plugin.tactsuitVr.StopSwimming();
+                Plugin.owoSkin.StopSwimming();
             }
         }
     }
@@ -340,7 +341,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled || !Plugin.playerHasSpawned)
+            if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
             {
                 return;
             }
@@ -353,8 +354,8 @@ namespace OWO_7Days
             {
                 if (!Plugin.inventoryOpened)
                 {
-                    Plugin.tactsuitVr.PlaybackHaptics("InventoryOpen");
-                    Plugin.tactsuitVr.PlaybackHaptics("InventoryOpenArmLeft");
+                    Plugin.owoSkin.Feel("InventoryOpen", 0);
+                    Plugin.owoSkin.Feel("InventoryOpenArmLeft", 0);
                     Plugin.inventoryOpened = true;
                     Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     return;
@@ -362,8 +363,8 @@ namespace OWO_7Days
 
                 if (Plugin.inventoryOpened)
                 {
-                    Plugin.tactsuitVr.PlaybackHaptics("InventoryClose");
-                    Plugin.tactsuitVr.PlaybackHaptics("InventoryCloseArmLeft");
+                    Plugin.owoSkin.Feel("InventoryClose", 0);
+                    Plugin.owoSkin.Feel("InventoryCloseArmLeft", 0);
                     Plugin.inventoryOpened = false;
                     Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     return;
@@ -378,7 +379,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -390,29 +391,29 @@ namespace OWO_7Days
                 switch (_eventType)
                 {
                     case MinEventTypes.onOtherHealedSelf:
-                        Plugin.tactsuitVr.PlaybackHaptics("Heal");
+                        Plugin.owoSkin.Feel("Heal", 0);
                         break;
 
                     case MinEventTypes.onSelfWaterSubmerge:
-                        Plugin.tactsuitVr.PlaybackHaptics("EnterWater_Arms");
-                        Plugin.tactsuitVr.PlaybackHaptics("EnterWater_Vest");
-                        OWOSkin.headUnderwater = true;
+                        Plugin.owoSkin.Feel("EnterWater_Arms", 0);
+                        Plugin.owoSkin.Feel("EnterWater_Vest", 0);
+                        OWOSkin.OWOSkin.headUnderwater = true;
                         break;
 
                     case MinEventTypes.onSelfWaterSurface:
-                        Plugin.tactsuitVr.PlaybackHaptics("ExitWater_Arms");
-                        Plugin.tactsuitVr.PlaybackHaptics("ExitWater_Vest");
-                        OWOSkin.headUnderwater = false;
+                        Plugin.owoSkin.Feel("ExitWater_Arms", 0);
+                        Plugin.owoSkin.Feel("ExitWater_Vest", 0);
+                        OWOSkin.OWOSkin.headUnderwater = false;
                         break;
 
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.tactsuitVr.PlaybackHaptics("RecoilArm_R", true, 0.5f);
-                        Plugin.tactsuitVr.PlaybackHaptics("RecoilVest_R", true, 0.5f);
+                        Plugin.owoSkin.Feel("RecoilArm_R",0);
+                        Plugin.owoSkin.Feel("RecoilVest_R",0);
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayHit:
-                        Plugin.tactsuitVr.PlaybackHaptics("RecoilArm_R", true, 0.5f);
-                        Plugin.tactsuitVr.PlaybackHaptics("RecoilVest_R", true, 0.5f);
+                        Plugin.owoSkin.Feel("RecoilArm_R", 0);
+                        Plugin.owoSkin.Feel("RecoilVest_R", 0);
                         break;
 
                     default: break;
@@ -429,7 +430,7 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance, float speed)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
@@ -441,7 +442,7 @@ namespace OWO_7Days
 
             if (speed > 0.02f)
             {
-                Plugin.tactsuitVr.PlaybackHaptics("LandAfterJump");
+                Plugin.owoSkin.PlaybackHaptics("LandAfterJump");
             }
         }
     }
@@ -452,13 +453,13 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix()
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
 
-            Plugin.tactsuitVr.PlaybackHaptics("eatingvisor");
-            Plugin.tactsuitVr.PlaybackHaptics("Eating");
+            Plugin.owoSkin.PlaybackHaptics("eatingvisor");
+            Plugin.owoSkin.PlaybackHaptics("Eating");
         }
     }
     
@@ -468,13 +469,13 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix()
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
 
-            Plugin.tactsuitVr.PlaybackHaptics("eatingvisor");
-            Plugin.tactsuitVr.PlaybackHaptics("Eating");
+            Plugin.owoSkin.PlaybackHaptics("eatingvisor");
+            Plugin.owoSkin.PlaybackHaptics("Eating");
         }
     }
 
@@ -484,11 +485,11 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix()
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
-            Plugin.tactsuitVr.StopAllHapticFeedback();
+            Plugin.owoSkin.StopAllHapticFeedback();
             Plugin.startedHeart = false;
             Plugin.playerHasSpawned = false;
         }
@@ -500,13 +501,13 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
             if (Traverse.Create(__instance).Field("swimMode").GetValue<int>() < 0)
             {
-                Plugin.tactsuitVr.StopSwimming();
+                Plugin.owoSkin.StopSwimming();
             }
         }
     }
@@ -517,12 +518,12 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.tactsuitVr.suitDisabled)
+            if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
 
-            Plugin.tactsuitVr.StopAllHapticFeedback();
+            Plugin.owoSkin.StopAllHapticFeedback();
             Plugin.startedHeart = false;
             Plugin.playerHasSpawned = false;
         }
