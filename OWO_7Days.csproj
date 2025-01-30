@@ -7,8 +7,8 @@
     <ProjectGuid>{601ECEA3-4802-4FC3-A33D-55712E427E20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_7Days_bHaptics</RootNamespace>
-    <AssemblyName>7Days_bHaptics</AssemblyName>
+    <RootNamespace>OWO_7Days</RootNamespace>
+    <AssemblyName>OWO_7Days</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -63,8 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="7Days_bhaptics.cs" />
-    <Compile Include="MyBhapticsTactsuit.cs" />
+    <Compile Include="OWO_7Days.cs" />
+    <Compile Include="OWOSkin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
