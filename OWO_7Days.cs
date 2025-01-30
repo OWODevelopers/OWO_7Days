@@ -14,7 +14,7 @@ using System.Security.Policy;
 
 namespace OWO_7Days
 {
-    [BepInPlugin("org.bepinex.plugins.7Days_bhaptics", "7Days_bhaptics integration", "1.4")]
+    [BepInPlugin("org.bepinex.plugins.OWO_7Days", "7Days owo integration", "1.4")]
     public class Plugin : BaseUnityPlugin
     {
 #pragma warning disable CS0109 // Remove unnecessary warning
