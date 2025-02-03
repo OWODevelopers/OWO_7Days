@@ -62,7 +62,7 @@ namespace OWO_7Days
     }
     
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
-    public class bhaptics_OnUpdate
+    public class owo_OnUpdate
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
@@ -72,7 +72,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(GameManager), "IsPaused")]
-    public class bhaptics_OnPause
+    public class owo_OnPause
     {
         [HarmonyPostfix]
         public static void Postfix(GameManager __instance)
@@ -90,7 +90,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "DamageEntity")]
-    public class bhaptics_OnDamage
+    public class owo_OnDamage
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance, DamageSource _damageSource)
@@ -181,7 +181,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "OnFired")]
-    public class bhaptics_OnFired
+    public class owo_OnFired
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
@@ -201,7 +201,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "OnEntityDeath")]
-    public class bhaptics_OnEntityDeath
+    public class owo_OnEntityDeath
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
@@ -222,7 +222,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "OnUpdateEntity")]
-    public class bhaptics_OnUpdateEntity
+    public class owo_OnUpdateEntity
     {
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance)
@@ -262,7 +262,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "FireEvent")]
-    public class bhaptics_OnFireEvent
+    public class owo_OnFireEvent
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance, MinEventTypes _eventType)
@@ -306,7 +306,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "SwimModeTick")]
-    public class bhaptics_OnSwimModeTick
+    public class owo_OnSwimModeTick
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
@@ -334,7 +334,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(PlayerAction), "Update")]
-    public class bhaptics_OnInventoryInputPressed
+    public class owo_OnInventoryInputPressed
     {
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
@@ -372,7 +372,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
-    public class bhaptics_OnFireEventEntityAlive
+    public class owo_OnFireEventEntityAlive
     {
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
@@ -423,7 +423,7 @@ namespace OWO_7Days
 
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "FallImpact")]
-    public class bhaptics_OnFallImpact
+    public class owo_OnFallImpact
     {
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance, float speed)
@@ -446,7 +446,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteAction")]
-    public class bhaptics_OnEatAndDrink
+    public class owo_OnEatAndDrink
     {
         [HarmonyPostfix]
         public static void Postfix()
@@ -462,7 +462,7 @@ namespace OWO_7Days
     }
     
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteInstantAction")]
-    public class bhaptics_OnDrinkAndDrink
+    public class owo_OnDrinkAndDrink
     {
         [HarmonyPostfix]
         public static void Postfix()
@@ -478,7 +478,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(GameManager), "OnApplicationQuit")]
-    public class bhaptics_OnAppQuit
+    public class owo_OnAppQuit
     {
         [HarmonyPostfix]
         public static void Postfix()
@@ -494,7 +494,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
-    public class bhaptics_OnLateUpdate
+    public class owo_OnLateUpdate
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
@@ -511,7 +511,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "OnEntityUnload")]
-    public class bhaptics_OnDestroy
+    public class owo_OnDestroy
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
