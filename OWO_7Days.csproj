@@ -44,9 +44,6 @@
     <Reference Include="BepInEx.Harmony">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\BepInEx\core\BepInEx.Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Bhaptics.Tact">
-      <HintPath>libs\Bhaptics.Tact.dll</HintPath>
-    </Reference>
     <Reference Include="InControl, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\InControl.dll</HintPath>
     </Reference>
