@@ -20,6 +20,7 @@ namespace OWO_7Days
         internal static new ManualLogSource Log;
 #pragma warning restore CS0109
         public static OWOSkin.OWOSkin owoSkin;
+        public static bool isPaused = false;
         public static bool startedHeart = false;
         public static float currentHealth = 0;
         public static bool inventoryOpened = false;
@@ -77,14 +78,16 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(GameManager __instance)
         {
-            if(Traverse.Create(__instance).Field("gamePaused").GetValue<bool>())
+            if(Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && !Plugin.isPaused)
             {
                 Plugin.owoSkin.StopAllHapticFeedback();
                 Plugin.startedHeart = false;
+                Plugin.isPaused = true;
             }
             else
             {
                 Plugin.checkHealth();
+                Plugin.isPaused = false;
             }
         }
     }
@@ -122,59 +125,44 @@ namespace OWO_7Days
                 {
                     // Bloodloss
                     case EnumDamageTypes.BloodLoss:
-                        Plugin.owoSkin.Feel("bloodLossVest",0);
+                        Plugin.owoSkin.Feel("BloodLoss",0);
                         break;
                     // electric
                     case EnumDamageTypes.Radiation:
-                        Plugin.owoSkin.Feel("electricVest", 0);
-                        Plugin.owoSkin.Feel("electricArms", 0);
-                        Plugin.owoSkin.Feel("electricHead", 0);
+                        Plugin.owoSkin.Feel("Electric", 0);
                         break;
                     case EnumDamageTypes.Cold:
-                        Plugin.owoSkin.Feel("electricVest", 0);
-                        Plugin.owoSkin.Feel("electricArms", 0);
-                        Plugin.owoSkin.Feel("electricHead", 0);
+                        Plugin.owoSkin.Feel("Cold", 0);
                         break;
                     case EnumDamageTypes.Heat:
-                        Plugin.owoSkin.Feel("electricVest", 0);
-                        Plugin.owoSkin.Feel("electricArms", 0);
-                        Plugin.owoSkin.Feel("electricHead", 0);
+                        Plugin.owoSkin.Feel("Heat", 0);
                         break;
                     case EnumDamageTypes.Electrical:
-                        Plugin.owoSkin.Feel("electricVest", 0);
-                        Plugin.owoSkin.Feel("electricArms", 0);
-                        Plugin.owoSkin.Feel("electricHead", 0);
+                        Plugin.owoSkin.Feel("Electric", 0);
                         break;
                     // infection
                     case EnumDamageTypes.Toxic:
-                        Plugin.owoSkin.Feel("toxicVest", 0);
-                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        Plugin.owoSkin.Feel("Toxic", 0);
                         break;
                     case EnumDamageTypes.Disease:
-                        Plugin.owoSkin.Feel("toxicVest", 0);
-                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        Plugin.owoSkin.Feel("Toxic", 0);
                         break;
                     case EnumDamageTypes.Infection:
-                        Plugin.owoSkin.Feel("toxicVest", 0);
-                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        Plugin.owoSkin.Feel("Toxic", 0);
                         break;
                     // stomach
                     case EnumDamageTypes.Starvation:
-                        Plugin.owoSkin.Feel("starvationVest", 0);
-                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        Plugin.owoSkin.Feel("Starvation", 0);
                         break;
                     // lungs
                     case EnumDamageTypes.Suffocation:
-                        Plugin.owoSkin.Feel("suffocationVest", 0);
-                        Plugin.owoSkin.Feel("suffocationVisor", 0);
+                        Plugin.owoSkin.Feel("Suffocation", 0);
                         break;
                     case EnumDamageTypes.Dehydration:
-                        Plugin.owoSkin.Feel("dehydrationVest", 0);
-                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        Plugin.owoSkin.Feel("Dehydration", 0);
                         break;
                     default:
                         Plugin.owoSkin.Feel("Impact", 0);
-                        Plugin.owoSkin.Feel("hurtvisor", 0);
                         break;
                 }
             }
@@ -196,8 +184,7 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.owoSkin.Feel("RecoilArm_R", 0);
-            Plugin.owoSkin.Feel("RecoilVest_R", 0);
+            Plugin.owoSkin.Feel("Recoil_R", 0);
         }
     }
 
@@ -354,7 +341,6 @@ namespace OWO_7Days
                 if (!Plugin.inventoryOpened)
                 {
                     Plugin.owoSkin.Feel("InventoryOpen", 0);
-                    Plugin.owoSkin.Feel("InventoryOpenArmLeft", 0);
                     Plugin.inventoryOpened = true;
                     Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     return;
@@ -363,7 +349,6 @@ namespace OWO_7Days
                 if (Plugin.inventoryOpened)
                 {
                     Plugin.owoSkin.Feel("InventoryClose", 0);
-                    Plugin.owoSkin.Feel("InventoryCloseArmLeft", 0);
                     Plugin.inventoryOpened = false;
                     Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     return;
@@ -394,25 +379,21 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfWaterSubmerge:
-                        Plugin.owoSkin.Feel("EnterWater_Arms", 0);
-                        Plugin.owoSkin.Feel("EnterWater_Vest", 0);
+                        Plugin.owoSkin.Feel("EnterWater", 0);
                         OWOSkin.OWOSkin.headUnderwater = true;
                         break;
 
                     case MinEventTypes.onSelfWaterSurface:
-                        Plugin.owoSkin.Feel("ExitWater_Arms", 0);
-                        Plugin.owoSkin.Feel("ExitWater_Vest", 0);
+                        Plugin.owoSkin.Feel("ExitWater", 0);
                         OWOSkin.OWOSkin.headUnderwater = false;
                         break;
 
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.owoSkin.Feel("RecoilArm_R",0);
-                        Plugin.owoSkin.Feel("RecoilVest_R",0);
+                        Plugin.owoSkin.Feel("Recoil_R",0);
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayHit:
-                        Plugin.owoSkin.Feel("RecoilArm_R", 0);
-                        Plugin.owoSkin.Feel("RecoilVest_R", 0);
+                        Plugin.owoSkin.Feel("Recoil_R", 0);
                         break;
 
                     default: break;
@@ -457,7 +438,6 @@ namespace OWO_7Days
                 return;
             }
 
-            Plugin.owoSkin.Feel("eatingvisor", 0);
             Plugin.owoSkin.Feel("Eating", 0);
         }
     }
@@ -473,7 +453,6 @@ namespace OWO_7Days
                 return;
             }
 
-            Plugin.owoSkin.Feel("eatingvisor", 0);
             Plugin.owoSkin.Feel("Eating", 0);
         }
     }
