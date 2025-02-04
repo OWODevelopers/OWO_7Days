@@ -13,7 +13,7 @@ using OWOSkin;
 
 namespace OWO_7Days
 {
-    [BepInPlugin("org.bepinex.plugins.OWO_7Days", "7Days owo integration", "1.4")]
+    [BepInPlugin("org.bepinex.plugins.OWO_7Days", "7Days owo integration", "1.0.0")]
     public class Plugin : BaseUnityPlugin
     {
 #pragma warning disable CS0109 // Remove unnecessary warning
@@ -110,73 +110,74 @@ namespace OWO_7Days
                 return;
             }
 
-            //if (_damageSource.damageSource == EnumDamageSource.External)
-            //{
-            //    KeyValuePair<float, float> coord = OWOSkin.OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
-            //    Plugin.owoSkin.PlayBackHit("Impact", coord.Key, coord.Value);
-            //}
-            //else
-            //{
-            //    switch (_damageSource.damageType)
-            //    {
-            //        // Bloodloss
-            //        case EnumDamageTypes.BloodLoss:
-            //            Plugin.owoSkin.PlaybackHaptics("bloodLossVest");
-            //            break;
-            //        // electric
-            //        case EnumDamageTypes.Radiation:
-            //            Plugin.owoSkin.PlaybackHaptics("electricVest");
-            //            Plugin.owoSkin.PlaybackHaptics("electricArms");
-            //            Plugin.owoSkin.PlaybackHaptics("electricHead");
-            //            break;
-            //        case EnumDamageTypes.Cold:
-            //            Plugin.owoSkin.PlaybackHaptics("electricVest");
-            //            Plugin.owoSkin.PlaybackHaptics("electricArms");
-            //            Plugin.owoSkin.PlaybackHaptics("electricHead");
-            //            break;
-            //        case EnumDamageTypes.Heat:
-            //            Plugin.owoSkin.PlaybackHaptics("electricVest");
-            //            Plugin.owoSkin.PlaybackHaptics("electricArms");
-            //            Plugin.owoSkin.PlaybackHaptics("electricHead");
-            //            break;
-            //        case EnumDamageTypes.Electrical:
-            //            Plugin.owoSkin.PlaybackHaptics("electricVest");
-            //            Plugin.owoSkin.PlaybackHaptics("electricArms");
-            //            Plugin.owoSkin.PlaybackHaptics("electricHead");
-            //            break;
-            //        // infection
-            //        case EnumDamageTypes.Toxic:
-            //            Plugin.owoSkin.PlaybackHaptics("toxicVest");
-            //            Plugin.owoSkin.PlaybackHaptics("starvationVisor");
-            //            break;
-            //        case EnumDamageTypes.Disease:
-            //            Plugin.owoSkin.PlaybackHaptics("toxicVest");
-            //            Plugin.owoSkin.PlaybackHaptics("starvationVisor");
-            //            break;
-            //        case EnumDamageTypes.Infection:
-            //            Plugin.owoSkin.PlaybackHaptics("toxicVest");
-            //            Plugin.owoSkin.PlaybackHaptics("starvationVisor");
-            //            break;
-            //        // stomach
-            //        case EnumDamageTypes.Starvation:
-            //            Plugin.owoSkin.PlaybackHaptics("starvationVest");
-            //            Plugin.owoSkin.PlaybackHaptics("starvationVisor");
-            //            break;
-            //        // lungs
-            //        case EnumDamageTypes.Suffocation:
-            //            Plugin.owoSkin.PlaybackHaptics("suffocationVest");
-            //            Plugin.owoSkin.PlaybackHaptics("suffocationVisor");
-            //            break;
-            //        case EnumDamageTypes.Dehydration:
-            //            Plugin.owoSkin.PlaybackHaptics("dehydrationVest");
-            //            Plugin.owoSkin.PlaybackHaptics("starvationVisor");
-            //            break;
-            //        default:
-            //            Plugin.owoSkin.PlaybackHaptics("Impact");
-            //            Plugin.owoSkin.PlaybackHaptics("hurtvisor");
-            //            break;
-            //    }
-            //}
+            if (_damageSource.damageSource == EnumDamageSource.External)
+            {
+                //KeyValuePair<float, float> coord = OWOSkin.OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
+                //Plugin.owoSkin.Feel("Impact", coord.Key, coord.Value);
+                Plugin.owoSkin.Feel("Impact", 0);
+            }
+            else
+            {
+                switch (_damageSource.damageType)
+                {
+                    // Bloodloss
+                    case EnumDamageTypes.BloodLoss:
+                        Plugin.owoSkin.Feel("bloodLossVest",0);
+                        break;
+                    // electric
+                    case EnumDamageTypes.Radiation:
+                        Plugin.owoSkin.Feel("electricVest", 0);
+                        Plugin.owoSkin.Feel("electricArms", 0);
+                        Plugin.owoSkin.Feel("electricHead", 0);
+                        break;
+                    case EnumDamageTypes.Cold:
+                        Plugin.owoSkin.Feel("electricVest", 0);
+                        Plugin.owoSkin.Feel("electricArms", 0);
+                        Plugin.owoSkin.Feel("electricHead", 0);
+                        break;
+                    case EnumDamageTypes.Heat:
+                        Plugin.owoSkin.Feel("electricVest", 0);
+                        Plugin.owoSkin.Feel("electricArms", 0);
+                        Plugin.owoSkin.Feel("electricHead", 0);
+                        break;
+                    case EnumDamageTypes.Electrical:
+                        Plugin.owoSkin.Feel("electricVest", 0);
+                        Plugin.owoSkin.Feel("electricArms", 0);
+                        Plugin.owoSkin.Feel("electricHead", 0);
+                        break;
+                    // infection
+                    case EnumDamageTypes.Toxic:
+                        Plugin.owoSkin.Feel("toxicVest", 0);
+                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        break;
+                    case EnumDamageTypes.Disease:
+                        Plugin.owoSkin.Feel("toxicVest", 0);
+                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        break;
+                    case EnumDamageTypes.Infection:
+                        Plugin.owoSkin.Feel("toxicVest", 0);
+                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        break;
+                    // stomach
+                    case EnumDamageTypes.Starvation:
+                        Plugin.owoSkin.Feel("starvationVest", 0);
+                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        break;
+                    // lungs
+                    case EnumDamageTypes.Suffocation:
+                        Plugin.owoSkin.Feel("suffocationVest", 0);
+                        Plugin.owoSkin.Feel("suffocationVisor", 0);
+                        break;
+                    case EnumDamageTypes.Dehydration:
+                        Plugin.owoSkin.Feel("dehydrationVest", 0);
+                        Plugin.owoSkin.Feel("starvationVisor", 0);
+                        break;
+                    default:
+                        Plugin.owoSkin.Feel("Impact", 0);
+                        Plugin.owoSkin.Feel("hurtvisor", 0);
+                        break;
+                }
+            }
         }
     }
 
@@ -440,7 +441,7 @@ namespace OWO_7Days
 
             if (speed > 0.02f)
             {
-                //Plugin.owoSkin.PlaybackHaptics("LandAfterJump");
+                Plugin.owoSkin.Feel("LandAfterJump", 0);
             }
         }
     }
@@ -456,8 +457,8 @@ namespace OWO_7Days
                 return;
             }
 
-            //Plugin.owoSkin.PlaybackHaptics("eatingvisor");
-            //Plugin.owoSkin.PlaybackHaptics("Eating");
+            Plugin.owoSkin.Feel("eatingvisor", 0);
+            Plugin.owoSkin.Feel("Eating", 0);
         }
     }
     
@@ -472,8 +473,8 @@ namespace OWO_7Days
                 return;
             }
 
-            //Plugin.owoSkin.PlaybackHaptics("eatingvisor");
-            //Plugin.owoSkin.PlaybackHaptics("Eating");
+            Plugin.owoSkin.Feel("eatingvisor", 0);
+            Plugin.owoSkin.Feel("Eating", 0);
         }
     }
 
