@@ -373,7 +373,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
         {
-            Plugin.Log.LogInfo("FireEvent");
+            Plugin.Log.LogInfo("FireEvent - " + _eventType);
 
             if (Plugin.owoSkin.suitDisabled)
             {
@@ -405,7 +405,7 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_R", 0);
+                        Plugin.owoSkin.Feel("Recoil_L", 0);
                         break;
 
                     default: break;
