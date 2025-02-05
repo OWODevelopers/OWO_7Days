@@ -10,6 +10,7 @@ using static AstarManager;
 using System.Runtime.Remoting.Lifetime;
 using System.Security.Policy;
 using OWOSkin;
+using System.Reflection;
 
 namespace OWO_7Days
 {
@@ -41,7 +42,7 @@ namespace OWO_7Days
             harmony.PatchAll();
 
             Test hand = TTT;
-            harmony.Patch(typeof(PlayerAction).GetMethod("Update"), null, new HarmonyMethod(hand));
+            harmony.Patch(typeof(PlayerAction).GetMethod("Update",BindingFlags.NonPublic | BindingFlags.Instance), null, new HarmonyMethod(hand));
             
         }
         public delegate void Test();
