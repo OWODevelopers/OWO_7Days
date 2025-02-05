@@ -203,9 +203,9 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.owoSkin.Feel("Death", 4);
-            Plugin.owoSkin.StopAllHapticFeedback();
             Plugin.startedHeart = false;
+            Plugin.owoSkin.StopAllHapticFeedback();
+            Plugin.owoSkin.Feel("Death", 4);
         }
     }
 
