@@ -434,7 +434,7 @@ namespace OWO_7Days
                 return;
             }
 
-            if (speed > 0.02f)
+            if (speed > 0.15f)
             {
                 Plugin.owoSkin.FallSensation(speed);
             }
