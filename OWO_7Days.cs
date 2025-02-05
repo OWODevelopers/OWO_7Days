@@ -41,14 +41,6 @@ namespace OWO_7Days
             var harmony = new Harmony("owo.patch.7days");
             harmony.PatchAll();
 
-            Test hand = TTT;
-            harmony.Patch(typeof(PlayerAction).GetMethod("Update",BindingFlags.NonPublic | BindingFlags.Instance), null, new HarmonyMethod(hand));
-            
-        }
-        public delegate void Test();
-        public void TTT()
-        {
-            Log.LogInfo("awfwafasfwafsagsgsegse");
         }
         public static void checkHealth()
         {
@@ -70,7 +62,7 @@ namespace OWO_7Days
             }
         }
     }
-    
+
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
     public class owo_OnUpdate
     {
@@ -87,7 +79,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(GameManager __instance)
         {
-            if(Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && !Plugin.isPaused)
+            if (Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && !Plugin.isPaused)
             {
                 Plugin.owoSkin.StopAllHapticFeedback();
                 Plugin.startedHeart = false;
@@ -134,7 +126,7 @@ namespace OWO_7Days
                 {
                     // Bloodloss
                     case EnumDamageTypes.BloodLoss:
-                        Plugin.owoSkin.Feel("BloodLoss",0);
+                        Plugin.owoSkin.Feel("BloodLoss", 0);
                         break;
                     // electric
                     case EnumDamageTypes.Radiation:
@@ -330,41 +322,41 @@ namespace OWO_7Days
         }
     }
 
-    //[HarmonyPatch(typeof(PlayerAction))]
-    //public class owo_OnInventoryInputPressed
-    //{
-    //    [HarmonyPostfix]
-    //    public static void Postfix(PlayerAction __instance)
-    //    {
-    //        if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
-    //        {
-    //            return;
-    //        }
+    [HarmonyPatch(typeof(PlayerAction), "UpdateBindings")]
+    public class owo_OnInventoryInputPressed
+    {
+        [HarmonyPostfix]
+        public static void Postfix(PlayerAction __instance)
+        {
+            if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
+            {
+                return;
+            }
 
-    //        long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - Plugin.buttonPressTime;
+            long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - Plugin.buttonPressTime;
 
-    //        if (diff > 500 && 
-    //            (__instance.Name == "Inventory" || (__instance.Name == "Menu" && Plugin.inventoryOpened)) &&
-    //            __instance.IsPressed)
-    //        {
-    //            if (!Plugin.inventoryOpened)
-    //            {
-    //                Plugin.owoSkin.Feel("InventoryOpen", 0);
-    //                Plugin.inventoryOpened = true;
-    //                Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-    //                return;
-    //            }
+            if (diff > 500 &&
+                (__instance.Name == "Inventory" || (__instance.Name == "Menu" && Plugin.inventoryOpened)) &&
+                __instance.IsPressed)
+            {
+                if (!Plugin.inventoryOpened)
+                {
+                    Plugin.owoSkin.Feel("InventoryOpen", 0);
+                    Plugin.inventoryOpened = true;
+                    Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    return;
+                }
 
-    //            if (Plugin.inventoryOpened)
-    //            {
-    //                Plugin.owoSkin.Feel("InventoryClose", 0);
-    //                Plugin.inventoryOpened = false;
-    //                Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-    //                return;
-    //            }
-    //        }
-    //    }
-    //}
+                if (Plugin.inventoryOpened)
+                {
+                    Plugin.owoSkin.Feel("InventoryClose", 0);
+                    Plugin.inventoryOpened = false;
+                    Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    return;
+                }
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
     public class owo_OnFireEventEntityAlive
@@ -398,7 +390,7 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_R",0);
+                        Plugin.owoSkin.Feel("Recoil_R", 0);
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayHit:
@@ -450,7 +442,7 @@ namespace OWO_7Days
             Plugin.owoSkin.Feel("Eating", 0);
         }
     }
-    
+
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteInstantAction")]
     public class owo_OnDrinkAndDrink
     {
