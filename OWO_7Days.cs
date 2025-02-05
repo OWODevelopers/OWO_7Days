@@ -69,16 +69,19 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("owo_OnUpdate");
             Plugin.currentHealth = Traverse.Create(__instance).Field("oldHealth").GetValue<float>();
         }
     }
 
     [HarmonyPatch(typeof(GameManager), "IsPaused")]
-    public class owo_OnPause
+    public class owo_OnPause // V
     {
         [HarmonyPostfix]
         public static void Postfix(GameManager __instance)
         {
+            Plugin.Log.LogInfo("IsPaused");
+
             if (Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && !Plugin.isPaused)
             {
                 Plugin.owoSkin.StopAllHapticFeedback();
@@ -94,11 +97,13 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "DamageEntity")]
-    public class owo_OnDamage
+    public class owo_OnDamage // V
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance, DamageSource _damageSource)
         {
+            Plugin.Log.LogInfo($"DamageEntity {_damageSource.damageSource} and {_damageSource.damageType}");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -176,6 +181,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("OnFired");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -195,6 +202,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("On Entity Death");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -216,6 +225,8 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("On Update Entity Pre");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -237,6 +248,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("On Update Entity Post");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -250,49 +263,51 @@ namespace OWO_7Days
         }
     }
 
-    //[HarmonyPatch(typeof(EntityPlayerLocal), "FireEvent")]
-    //public class owo_OnFireEvent
-    //{
-    //    [HarmonyPostfix]
-    //    public static void Postfix(EntityPlayerLocal __instance, MinEventTypes _eventType)
-    //    {
-    //        if (Plugin.owoSkin.suitDisabled)
-    //        {
-    //            return;
-    //        }
+    [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
+    public class owo_OnFireEvent
+    {
+        [HarmonyPostfix]
+        public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
+        {
+            Plugin.Log.LogInfo($"FireEvent {_eventType}");
 
-    //        if (Traverse.Create(__instance).Field("isSpectator").GetValue<bool>())
-    //        {
-    //            return;
-    //        }
+            if (Plugin.owoSkin.suitDisabled)
+            {
+                return;
+            }
 
-    //        switch (_eventType)
-    //        {
-    //            case MinEventTypes.onSelfJump:
-    //                Plugin.owoSkin.Feel("OnJump", 0);
-    //                break;
+            if (Traverse.Create(__instance).Field("isSpectator").GetValue<bool>())
+            {
+                return;
+            }
 
-    //            case MinEventTypes.onSelfRespawn:
-    //                Plugin.owoSkin.StopAllHapticFeedback();
-    //                Plugin.startedHeart = false;
-    //                Plugin.playerHasSpawned = true;
-    //                break;
+            switch (_eventType)
+            {
+                case MinEventTypes.onSelfJump:
+                    Plugin.owoSkin.Feel("OnJump", 0);
+                    break;
 
-    //            case MinEventTypes.onSelfFirstSpawn:
-    //                Plugin.owoSkin.StopAllHapticFeedback();
-    //                Plugin.startedHeart = false;
-    //                Plugin.playerHasSpawned = true;
-    //                break; 
+                case MinEventTypes.onSelfRespawn:
+                    Plugin.owoSkin.StopAllHapticFeedback();
+                    Plugin.startedHeart = false;
+                    Plugin.playerHasSpawned = true;
+                    break;
 
-    //            case MinEventTypes.onSelfEnteredGame:
-    //                Plugin.startedHeart = false;
-    //                Plugin.playerHasSpawned = true;
-    //                break;
+                case MinEventTypes.onSelfFirstSpawn:
+                    Plugin.owoSkin.StopAllHapticFeedback();
+                    Plugin.startedHeart = false;
+                    Plugin.playerHasSpawned = true;
+                    break;
 
-    //            default: break;
-    //        }
-    //    }
-    //}
+                case MinEventTypes.onSelfEnteredGame:
+                    Plugin.startedHeart = false;
+                    Plugin.playerHasSpawned = true;
+                    break;
+
+                default: break;
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "SwimModeTick")]
     public class owo_OnSwimModeTick
@@ -300,6 +315,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("SwimModeTick");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -322,12 +339,14 @@ namespace OWO_7Days
         }
     }
 
-    [HarmonyPatch(typeof(PlayerAction), "UpdateBindings")]
+    [HarmonyPatch(typeof(PlayerAction), "Update")]
     public class owo_OnInventoryInputPressed
     {
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
         {
+            Plugin.Log.LogInfo("Update");
+
             if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
             {
                 return;
@@ -364,6 +383,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
         {
+            Plugin.Log.LogInfo("FireEvent");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -411,6 +432,8 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance, float speed)
         {
+            Plugin.Log.LogInfo("FallImpact");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -434,6 +457,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix()
         {
+            Plugin.Log.LogInfo("ExecuteAction");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -449,6 +474,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix()
         {
+            Plugin.Log.LogInfo("ExecuteInstantAction");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -464,6 +491,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix()
         {
+            Plugin.Log.LogInfo("OnApplicationQuit");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -480,6 +509,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("LateUpdate");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -497,6 +528,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
+            Plugin.Log.LogInfo("OnEntityUnload");
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
