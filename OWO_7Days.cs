@@ -401,11 +401,11 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_R", 0);
+                        Plugin.owoSkin.Feel("Recoil_L", 0);
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_L", 0);
+                        Plugin.owoSkin.Feel("Recoil_R", 0);
                         break;
 
                     default: break;
