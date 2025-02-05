@@ -148,13 +148,12 @@ namespace OWOSkin
             }
         }
 
-        public void SwimmingFuncAsync()
+        public async Task SwimmingFuncAsync()
         {
             while (swimmingIsActive)
             {
                 Feel("Swimming", 0);
-                Feel("EnterWater_Arms", 0);
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
 

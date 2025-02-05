@@ -118,15 +118,6 @@ namespace OWO_7Days
             {
                 return;
             }
-
-            if (_damageSource.damageSource == EnumDamageSource.External)
-            {
-                //KeyValuePair<float, float> coord = OWOSkin.OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
-                //Plugin.owoSkin.Feel("Impact", coord.Key, coord.Value);
-                Plugin.owoSkin.Feel("Impact", 0);
-            }
-            else
-            {
                 switch (_damageSource.damageType)
                 {
                     // Bloodloss
@@ -141,7 +132,7 @@ namespace OWO_7Days
                         Plugin.owoSkin.Feel("Cold", 0);
                         break;
                     case EnumDamageTypes.Heat:
-                        Plugin.owoSkin.Feel("Heat", 0);
+                        Plugin.owoSkin.Feel("Fire", 0);
                         break;
                     case EnumDamageTypes.Electrical:
                         Plugin.owoSkin.Feel("Electric", 0);
@@ -165,13 +156,12 @@ namespace OWO_7Days
                         Plugin.owoSkin.Feel("Suffocation", 0);
                         break;
                     case EnumDamageTypes.Dehydration:
-                        Plugin.owoSkin.Feel("Dehydration", 0);
+                        Plugin.owoSkin.Feel("Starvation", 0);
                         break;
                     default:
                         Plugin.owoSkin.Feel("Impact", 0);
                         break;
                 }
-            }
         }
     }
 
@@ -446,7 +436,7 @@ namespace OWO_7Days
 
             if (speed > 0.02f)
             {
-                Plugin.owoSkin.Feel("LandAfterJump", 0);
+                Plugin.owoSkin.Feel("JumpLanding", 0);
             }
         }
     }
