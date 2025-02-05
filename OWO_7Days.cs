@@ -257,49 +257,49 @@ namespace OWO_7Days
         }
     }
 
-    [HarmonyPatch(typeof(EntityPlayerLocal), "FireEvent")]
-    public class owo_OnFireEvent
-    {
-        [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance, MinEventTypes _eventType)
-        {
-            if (Plugin.owoSkin.suitDisabled)
-            {
-                return;
-            }
+    //[HarmonyPatch(typeof(EntityPlayerLocal), "FireEvent")]
+    //public class owo_OnFireEvent
+    //{
+    //    [HarmonyPostfix]
+    //    public static void Postfix(EntityPlayerLocal __instance, MinEventTypes _eventType)
+    //    {
+    //        if (Plugin.owoSkin.suitDisabled)
+    //        {
+    //            return;
+    //        }
 
-            if (Traverse.Create(__instance).Field("isSpectator").GetValue<bool>())
-            {
-                return;
-            }
+    //        if (Traverse.Create(__instance).Field("isSpectator").GetValue<bool>())
+    //        {
+    //            return;
+    //        }
 
-            switch (_eventType)
-            {
-                case MinEventTypes.onSelfJump:
-                    Plugin.owoSkin.Feel("OnJump", 0);
-                    break;
+    //        switch (_eventType)
+    //        {
+    //            case MinEventTypes.onSelfJump:
+    //                Plugin.owoSkin.Feel("OnJump", 0);
+    //                break;
 
-                case MinEventTypes.onSelfRespawn:
-                    Plugin.owoSkin.StopAllHapticFeedback();
-                    Plugin.startedHeart = false;
-                    Plugin.playerHasSpawned = true;
-                    break;
+    //            case MinEventTypes.onSelfRespawn:
+    //                Plugin.owoSkin.StopAllHapticFeedback();
+    //                Plugin.startedHeart = false;
+    //                Plugin.playerHasSpawned = true;
+    //                break;
 
-                case MinEventTypes.onSelfFirstSpawn:
-                    Plugin.owoSkin.StopAllHapticFeedback();
-                    Plugin.startedHeart = false;
-                    Plugin.playerHasSpawned = true;
-                    break; 
+    //            case MinEventTypes.onSelfFirstSpawn:
+    //                Plugin.owoSkin.StopAllHapticFeedback();
+    //                Plugin.startedHeart = false;
+    //                Plugin.playerHasSpawned = true;
+    //                break; 
 
-                case MinEventTypes.onSelfEnteredGame:
-                    Plugin.startedHeart = false;
-                    Plugin.playerHasSpawned = true;
-                    break;
+    //            case MinEventTypes.onSelfEnteredGame:
+    //                Plugin.startedHeart = false;
+    //                Plugin.playerHasSpawned = true;
+    //                break;
 
-                default: break;
-            }
-        }
-    }
+    //            default: break;
+    //        }
+    //    }
+    //}
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "SwimModeTick")]
     public class owo_OnSwimModeTick
@@ -329,41 +329,41 @@ namespace OWO_7Days
         }
     }
 
-    [HarmonyPatch(typeof(PlayerAction))]
-    public class owo_OnInventoryInputPressed
-    {
-        [HarmonyPostfix]
-        public static void Postfix(PlayerAction __instance)
-        {
-            if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
-            {
-                return;
-            }
+    //[HarmonyPatch(typeof(PlayerAction))]
+    //public class owo_OnInventoryInputPressed
+    //{
+    //    [HarmonyPostfix]
+    //    public static void Postfix(PlayerAction __instance)
+    //    {
+    //        if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
+    //        {
+    //            return;
+    //        }
 
-            long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - Plugin.buttonPressTime;
+    //        long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - Plugin.buttonPressTime;
 
-            if (diff > 500 && 
-                (__instance.Name == "Inventory" || (__instance.Name == "Menu" && Plugin.inventoryOpened)) &&
-                __instance.IsPressed)
-            {
-                if (!Plugin.inventoryOpened)
-                {
-                    Plugin.owoSkin.Feel("InventoryOpen", 0);
-                    Plugin.inventoryOpened = true;
-                    Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    return;
-                }
+    //        if (diff > 500 && 
+    //            (__instance.Name == "Inventory" || (__instance.Name == "Menu" && Plugin.inventoryOpened)) &&
+    //            __instance.IsPressed)
+    //        {
+    //            if (!Plugin.inventoryOpened)
+    //            {
+    //                Plugin.owoSkin.Feel("InventoryOpen", 0);
+    //                Plugin.inventoryOpened = true;
+    //                Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+    //                return;
+    //            }
 
-                if (Plugin.inventoryOpened)
-                {
-                    Plugin.owoSkin.Feel("InventoryClose", 0);
-                    Plugin.inventoryOpened = false;
-                    Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    return;
-                }
-            }
-        }
-    }
+    //            if (Plugin.inventoryOpened)
+    //            {
+    //                Plugin.owoSkin.Feel("InventoryClose", 0);
+    //                Plugin.inventoryOpened = false;
+    //                Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+    //                return;
+    //            }
+    //        }
+    //    }
+    //}
 
     [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
     public class owo_OnFireEventEntityAlive
