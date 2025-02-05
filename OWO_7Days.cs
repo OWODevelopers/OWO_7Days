@@ -39,8 +39,16 @@ namespace OWO_7Days
             // patch all functions
             var harmony = new Harmony("owo.patch.7days");
             harmony.PatchAll();
-        }
 
+            Test hand = TTT;
+            harmony.Patch(typeof(PlayerAction).GetMethod("Update"), null, new HarmonyMethod(hand));
+            
+        }
+        public delegate void Test();
+        public void TTT()
+        {
+            Log.LogInfo("awfwafasfwafsagsgsegse");
+        }
         public static void checkHealth()
         {
             if (Plugin.currentHealth < 15 && Plugin.currentHealth < 0)
@@ -321,7 +329,7 @@ namespace OWO_7Days
         }
     }
 
-    [HarmonyPatch(typeof(PlayerAction), "Update")]
+    [HarmonyPatch(typeof(PlayerAction))]
     public class owo_OnInventoryInputPressed
     {
         [HarmonyPostfix]
