@@ -115,15 +115,6 @@ namespace OWO_7Days
             {
                 return;
             }
-
-            if (_damageSource.damageSource == EnumDamageSource.External)
-            {
-                //KeyValuePair<float, float> coord = OWOSkin.OWOSkin.getAngleAndShift(__instance.transform, _damageSource.getDirection(), 180f);
-                //Plugin.owoSkin.Feel("Impact", coord.Key, coord.Value);
-                Plugin.owoSkin.Feel("Impact", 0);
-            }
-            else
-            {
                 switch (_damageSource.damageType)
                 {
                     // Bloodloss
@@ -138,7 +129,7 @@ namespace OWO_7Days
                         Plugin.owoSkin.Feel("Cold", 0);
                         break;
                     case EnumDamageTypes.Heat:
-                        Plugin.owoSkin.Feel("Heat", 0);
+                        Plugin.owoSkin.Feel("Fire", 0);
                         break;
                     case EnumDamageTypes.Electrical:
                         Plugin.owoSkin.Feel("Electric", 0);
@@ -162,13 +153,12 @@ namespace OWO_7Days
                         Plugin.owoSkin.Feel("Suffocation", 0);
                         break;
                     case EnumDamageTypes.Dehydration:
-                        Plugin.owoSkin.Feel("Dehydration", 0);
+                        Plugin.owoSkin.Feel("Starvation", 0);
                         break;
                     default:
                         Plugin.owoSkin.Feel("Impact", 0);
                         break;
                 }
-            }
         }
     }
 
@@ -206,9 +196,9 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.owoSkin.Feel("Death", 4);
-            Plugin.owoSkin.StopAllHapticFeedback();
             Plugin.startedHeart = false;
+            Plugin.owoSkin.StopAllHapticFeedback();
+            Plugin.owoSkin.Feel("Death", 4);
         }
     }
 
@@ -368,6 +358,8 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
         {
+            Plugin.Log.LogInfo("FireEvent - " + _eventType);
+
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -394,7 +386,7 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_R", 0);
+                        Plugin.owoSkin.Feel("Recoil_L", 0);
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayHit:
@@ -425,9 +417,9 @@ namespace OWO_7Days
                 return;
             }
 
-            if (speed > 0.02f)
+            if (speed > 0.15f)
             {
-                Plugin.owoSkin.Feel("LandAfterJump", 0);
+                Plugin.owoSkin.FallSensation(speed);
             }
         }
     }
