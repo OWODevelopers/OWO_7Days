@@ -436,7 +436,7 @@ namespace OWO_7Days
 
             if (speed > 0.02f)
             {
-                Plugin.owoSkin.Feel("JumpLanding", 0);
+                Plugin.owoSkin.FallSensation(speed);
             }
         }
     }
