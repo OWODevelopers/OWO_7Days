@@ -61,8 +61,13 @@ namespace OWO_7Days
                 }
             }
         }
-    }
 
+        public static bool CantFeel()
+        {
+            return Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned;
+        }
+    }
+    
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
     public class owo_OnUpdate
     {
@@ -101,7 +106,7 @@ namespace OWO_7Days
         {
             Plugin.Log.LogInfo($"DamageEntity {_damageSource.damageSource} and {_damageSource.damageType}");
 
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -168,7 +173,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance) // ?
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -187,7 +192,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance) // V
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -208,7 +213,7 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance) // V
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -294,7 +299,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance) // V
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -322,7 +327,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
         {
-            if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
+            if (Plugin.CantFeel())
             {
                 return;
             }
