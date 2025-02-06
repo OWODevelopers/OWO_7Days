@@ -9,7 +9,24 @@ This mod is based on the work of [Asienth](https://github.com/Astienth/7Days_bHa
 - Enjoy your inmersive experience! 😊
 
 # Featured effects
-- 
+- Bloodloss
+- Death
+- Dehydration
+- Eating
+- Electric damage
+- Water interaction (enter, exit, swimming)
+- Explosion
+- Fire
+- Hurt
+- Heal
+- HeartBeat
+- Impact
+- Open and close inventory
+- Jump force and high jumps landing
+- Different weapons recoils
+- Starvation
+- Suffocation
+- Toxic
 
 # Manual Connection
 If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt and write the IP of where you placed the OWO mod.
