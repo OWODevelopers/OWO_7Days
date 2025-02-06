@@ -61,6 +61,11 @@ namespace OWO_7Days
                 }
             }
         }
+
+        public static bool CantFeel()
+        {
+            return Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned;
+        }
     }
     
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
@@ -97,7 +102,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance, DamageSource _damageSource)
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -188,7 +193,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -208,7 +213,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -229,7 +234,7 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance)
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -313,7 +318,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -341,7 +346,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
         {
-            if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
+            if (Plugin.CantFeel())
             {
                 return;
             }
