@@ -6,6 +6,8 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
+using InControl;
+using UnityEngine;
 
 
 namespace OWOSkin
@@ -61,7 +63,7 @@ namespace OWOSkin
         {
             LOG("Initializing OWO skin");
 
-            var gameAuth = GameAuth.Create(AllBakedSensations()).WithId("0"); ;
+            var gameAuth = GameAuth.Create(AllBakedSensations()).WithId("26202665");
 
             OWO.Configure(gameAuth);
             string[] myIPs = getIPsFromFile("OWO_Manual_IP.txt");
@@ -75,6 +77,7 @@ namespace OWOSkin
             {
                 suitDisabled = false;
                 LOG("OWO suit connected.");
+                Feel("HeartBeat",0);
             }
             if (suitDisabled) LOG("OWO is not enabled?!?!");
         }
@@ -148,13 +151,12 @@ namespace OWOSkin
             }
         }
 
-        public void SwimmingFuncAsync()
+        public async Task SwimmingFuncAsync()
         {
             while (swimmingIsActive)
             {
                 Feel("Swimming", 0);
-                Feel("EnterWater_Arms", 0);
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
 
@@ -209,6 +211,11 @@ namespace OWOSkin
 
             if (suitDisabled) { return; }
             OWO.Send(hitSensation.WithPriority(3));
+        }
+
+        internal void FallSensation(float speed)
+        {
+            OWO.Send(FeedbackMap["JumpLanding"].WithMuscles(Muscle.Abdominal_R.WithIntensity((int)Mathf.Clamp(speed * 100 + 50, 50, 100))).WithPriority(2));
         }
 
         //public void PlayBackHit(String key, float xzAngle, float yShift)
