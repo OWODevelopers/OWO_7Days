@@ -29,4 +29,5 @@ This mod is based on the work of [Asienth](https://github.com/Astienth/7Days_bHa
 - Toxic
 
 # Manual Connection
-If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt and write the IP of where you placed the OWO mod.
+If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt  
+and write the IP of where you placed the OWO mod.
