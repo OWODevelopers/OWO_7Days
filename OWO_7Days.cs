@@ -393,6 +393,11 @@ namespace OWO_7Days
                     case MinEventTypes.onSelfRangedBurstShotStart:
                         Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.holdingItem.Name);
                         break;
+                        // Para sensacion de tensar para los arcos
+                    case MinEventTypes.onSelfRangedBurstShotEnd:
+                        if(__instance.inventory.holdingItem.Name == "gunBowT0PrimitiveBow")
+                            Plugin.owoSkin.LOG("RecoilBow: " + __instance.inventory.holdingItem.Name);
+                        break;
                     case MinEventTypes.onSelfPrimaryActionRayMiss:
                     case MinEventTypes.onSelfPrimaryActionRayHit:
                         Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
