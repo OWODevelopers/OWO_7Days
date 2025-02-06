@@ -146,7 +146,7 @@ namespace OWOSkin
         {
             while (heartBeatIsActive)
             {
-                Feel("HeartBeat", 1);
+                Feel("HeartBeat", 0);
                 await Task.Delay(1000);
             }
         }
@@ -215,7 +215,7 @@ namespace OWOSkin
 
         internal void FallSensation(float speed)
         {
-            OWO.Send(FeedbackMap["JumpLanding"].WithMuscles(Muscle.Abdominal_R.WithIntensity((int)Mathf.Clamp(speed * 100 + 50, 50, 100))).WithPriority(2));
+            OWO.Send(FeedbackMap["JumpLanding"].WithMuscles(Muscle.Abdominal_R.WithIntensity((int)Mathf.Clamp(speed * 100 + 50, 50, 100))).WithPriority(3));
         }
 
         //public void PlayBackHit(String key, float xzAngle, float yShift)
