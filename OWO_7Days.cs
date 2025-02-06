@@ -390,16 +390,17 @@ namespace OWO_7Days
                         OWOSkin.OWOSkin.headUnderwater = false;
                         break;
 
+                    case MinEventTypes.onSelfRangedBurstShotStart:
+                        Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.holdingItem.Name);
+                        break;
+                    case MinEventTypes.onSelfPrimaryActionRayMiss:
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.GetHoldingGun().MagazineItemNames[5]);
-                        Plugin.owoSkin.Feel("Recoil_L", 2);
+                        Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
-
+                    case MinEventTypes.onSelfSecondaryActionRayMiss:
                     case MinEventTypes.onSelfSecondaryActionRayHit:
-                        Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.GetHoldingGun().MagazineItemNames[0]);
-                        Plugin.owoSkin.Feel("Recoil_R", 2);
+                        Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
-
                     default: break;
                 }
             }
