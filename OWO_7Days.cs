@@ -425,7 +425,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteAction")]
-    public class owo_OnEatAndDrink // ?
+    public class owo_OnEatAndDrink // V
     {
         [HarmonyPostfix]
         public static void Postfix()
