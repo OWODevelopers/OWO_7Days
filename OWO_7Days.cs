@@ -87,11 +87,11 @@ namespace OWO_7Days
         {
             if (Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && !Plugin.isPaused)
             {
-                Plugin.owoSkin.StopAllHapticFeedback();
+                Plugin.owoSkin.StopAllHapticFeedback(); //este no da problemas
                 Plugin.startedHeart = false;
                 Plugin.isPaused = true;
             }
-            else
+            else if(!Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && Plugin.isPaused)
             {
                 Plugin.checkHealth();
                 Plugin.isPaused = false;
@@ -203,7 +203,7 @@ namespace OWO_7Days
                 return;
             }
             Plugin.startedHeart = false;
-            Plugin.owoSkin.StopAllHapticFeedback();
+            Plugin.owoSkin.StopAllHapticFeedback(); //el de muerte
             Plugin.owoSkin.Feel("Death", 4);
         }
     }
@@ -279,6 +279,7 @@ namespace OWO_7Days
                     break;
 
                 case MinEventTypes.onSelfFirstSpawn:
+                    if (!(__instance is EntityPlayer)) return;
                     Plugin.owoSkin.StopAllHapticFeedback();
                     Plugin.startedHeart = false;
                     Plugin.playerHasSpawned = true;
@@ -560,7 +561,7 @@ namespace OWO_7Days
                 return;
             }
 
-            Plugin.owoSkin.StopAllHapticFeedback();
+            Plugin.owoSkin.StopAllHapticFeedback(); //Este no es
             Plugin.startedHeart = false;
             Plugin.playerHasSpawned = false;
         }
