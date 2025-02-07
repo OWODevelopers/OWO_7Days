@@ -33,6 +33,8 @@ namespace OWO_7Days
             {"gunBowT3CompoundBow","WeaponBow"},
             {"gunBowT1IronCrossbow","WeaponCrossbow"},
             {"gunBowT3CompoundCrossbow","WeaponCrossbow"},
+            {"gunBotT2JunkTurret","WeaponRifle"},            
+            {"gunBotT1JunkSledge","WeaponSledge"},            
             {"meleeToolRepairT3Nailgun","WeaponPistol"},
             {"meleeToolRepairT0StoneAxe","MeleeRightFast"},
             {"meleeToolRepairT0TazasStoneAxe","MeleeRightFast"},
