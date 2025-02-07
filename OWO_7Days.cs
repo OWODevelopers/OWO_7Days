@@ -61,8 +61,13 @@ namespace OWO_7Days
                 }
             }
         }
-    }
 
+        public static bool CantFeel()
+        {
+            return Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned;
+        }
+    }
+    
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
     public class owo_OnUpdate
     {
@@ -101,7 +106,7 @@ namespace OWO_7Days
         {
             Plugin.Log.LogInfo($"DamageEntity {_damageSource.damageSource} and {_damageSource.damageType}");
 
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -119,44 +124,44 @@ namespace OWO_7Days
                 {
                     // Bloodloss
                     case EnumDamageTypes.BloodLoss:
-                        Plugin.owoSkin.Feel("BloodLoss", 0);
+                        Plugin.owoSkin.Feel("BloodLoss", 3);
                         break;
                     // electric
                     case EnumDamageTypes.Radiation:
-                        Plugin.owoSkin.Feel("Electric", 0);
+                        Plugin.owoSkin.Feel("Electric", 3);
                         break;
                     case EnumDamageTypes.Cold:
-                        Plugin.owoSkin.Feel("Cold", 0);
+                        Plugin.owoSkin.Feel("Cold", 3);
                         break;
                     case EnumDamageTypes.Heat:
-                        Plugin.owoSkin.Feel("Fire", 0);
+                        Plugin.owoSkin.Feel("Fire", 3);
                         break;
                     case EnumDamageTypes.Electrical:
-                        Plugin.owoSkin.Feel("Electric", 0);
+                        Plugin.owoSkin.Feel("Electric", 3);
                         break;
                     // infection
                     case EnumDamageTypes.Toxic:
-                        Plugin.owoSkin.Feel("Toxic", 0);
+                        Plugin.owoSkin.Feel("Toxic", 3);
                         break;
                     case EnumDamageTypes.Disease:
-                        Plugin.owoSkin.Feel("Toxic", 0);
+                        Plugin.owoSkin.Feel("Toxic", 3);
                         break;
                     case EnumDamageTypes.Infection:
-                        Plugin.owoSkin.Feel("Toxic", 0);
+                        Plugin.owoSkin.Feel("Toxic", 3);
                         break;
                     // stomach
                     case EnumDamageTypes.Starvation:
-                        Plugin.owoSkin.Feel("Starvation", 0);
+                        Plugin.owoSkin.Feel("Starvation", 3);
                         break;
                     // lungs
                     case EnumDamageTypes.Suffocation:
-                        Plugin.owoSkin.Feel("Suffocation", 0);
+                        Plugin.owoSkin.Feel("Suffocation", 3);
                         break;
                     case EnumDamageTypes.Dehydration:
-                        Plugin.owoSkin.Feel("Starvation", 0);
+                        Plugin.owoSkin.Feel("Starvation", 3);
                         break;
                     default:
-                        Plugin.owoSkin.Feel("Impact", 0);
+                        Plugin.owoSkin.Feel("Impact", 3);
                         break;
                 }
         }
@@ -168,7 +173,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance) // ?
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -177,7 +182,7 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.owoSkin.Feel("Recoil_R", 0);
+            Plugin.owoSkin.Feel("Recoil_R", 1);
         }
     }
 
@@ -187,7 +192,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance) // V
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -208,7 +213,7 @@ namespace OWO_7Days
         [HarmonyPrefix]
         public static void Prefix(EntityPlayerLocal __instance) // V
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -222,7 +227,7 @@ namespace OWO_7Days
 
             if ((float)__instance.Health - Plugin.currentHealth > 5)
             {
-                Plugin.owoSkin.Feel("Heal", 0);
+                Plugin.owoSkin.Feel("Heal", 1);
             }
         }
 
@@ -263,7 +268,7 @@ namespace OWO_7Days
             switch (_eventType)
             {
                 case MinEventTypes.onSelfJump:
-                    Plugin.owoSkin.Feel("OnJump", 0);
+                    Plugin.owoSkin.Feel("OnJump", 1);
                     break;
 
                 case MinEventTypes.onSelfRespawn:
@@ -294,7 +299,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance) // V
         {
-            if (Plugin.owoSkin.suitDisabled)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -322,7 +327,7 @@ namespace OWO_7Days
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
         {
-            if (Plugin.owoSkin.suitDisabled || !Plugin.playerHasSpawned)
+            if (Plugin.CantFeel())
             {
                 return;
             }
@@ -372,27 +377,35 @@ namespace OWO_7Days
                 switch (_eventType)
                 {
                     case MinEventTypes.onOtherHealedSelf:
-                        Plugin.owoSkin.Feel("Heal", 0);
+                        Plugin.owoSkin.Feel("Heal", 1);
                         break;
 
                     case MinEventTypes.onSelfWaterSubmerge:
-                        Plugin.owoSkin.Feel("EnterWater", 0);
+                        Plugin.owoSkin.Feel("EnterWater", 1);
                         OWOSkin.OWOSkin.headUnderwater = true;
                         break;
 
                     case MinEventTypes.onSelfWaterSurface:
-                        Plugin.owoSkin.Feel("ExitWater", 0);
+                        Plugin.owoSkin.Feel("ExitWater", 1);
                         OWOSkin.OWOSkin.headUnderwater = false;
                         break;
 
+                    case MinEventTypes.onSelfRangedBurstShotStart:
+                        Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.holdingItem.Name);
+                        break;
+                        // Para sensacion de tensar para los arcos
+                    case MinEventTypes.onSelfRangedBurstShotEnd:
+                        if(__instance.inventory.holdingItem.Name == "gunBowT0PrimitiveBow")
+                            Plugin.owoSkin.LOG("RecoilBow: " + __instance.inventory.holdingItem.Name);
+                        break;
+                    case MinEventTypes.onSelfPrimaryActionRayMiss:
                     case MinEventTypes.onSelfPrimaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_L", 0);
+                        Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
-
+                    case MinEventTypes.onSelfSecondaryActionRayMiss:
                     case MinEventTypes.onSelfSecondaryActionRayHit:
-                        Plugin.owoSkin.Feel("Recoil_R", 0);
+                        Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
-
                     default: break;
                 }
             }
@@ -437,7 +450,7 @@ namespace OWO_7Days
                 return;
             }
 
-            Plugin.owoSkin.Feel("Eating", 0);
+            Plugin.owoSkin.Feel("Eating", 1);
         }
     }
 
@@ -454,7 +467,7 @@ namespace OWO_7Days
                 return;
             }
 
-            Plugin.owoSkin.Feel("Eating", 0);
+            Plugin.owoSkin.Feel("Eating", 1);
         }
     }
 
