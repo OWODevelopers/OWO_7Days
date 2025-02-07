@@ -12,6 +12,7 @@ using System.Security.Policy;
 using OWOSkin;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace OWO_7Days
 {
@@ -336,9 +337,7 @@ namespace OWO_7Days
 
             long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - Plugin.buttonPressTime;
 
-            if (diff > 500 &&
-                (__instance.Name == "Inventory" || (__instance.Name == "Menu" && Plugin.inventoryOpened)) &&
-                __instance.IsPressed)
+            if (diff > 500 && (__instance.Name == "Inventory" || __instance.Name == "Menu") && __instance.IsPressed)
             {
                 if (!Plugin.inventoryOpened)
                 {
@@ -452,8 +451,16 @@ namespace OWO_7Days
             {
                 name += isPrimary? "_L" : "_R";
             }
-            string sensation = SensationsDictionary.RecoilSensations[name];
-            
+
+            string sensation;
+            SensationsDictionary.RecoilSensations.TryGetValue(name, out sensation);
+
+            if (sensation == null)
+            {
+                Plugin.owoSkin.LOG("Non registered recoil: " + name);
+                return "WeaponPistol";
+            }
+
             return sensation;
         }
     }
