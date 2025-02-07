@@ -33,4 +33,7 @@
 32~WeaponRocket~100,1,90,0,0,0,|0%100~weapon-0~Weapons#
 33~WeaponCrossbow~100,1,90,0,0,0,|0%100~weapon-0~Weapons#
 34~WeaponStringBow~100,1,90,0,0,0,|0%100~weapon-0~Weapons#
-35~WeaponBow~100,1,90,0,0,0,|0%100~weapon-0~Weapons
+35~WeaponBow~100,1,90,0,0,0,|0%100~weapon-0~Weapons#
+36~WeaponAssault~100,1,90,0,0,0,|0%100~weapon-0~Weapons#
+37~WeaponRifle~100,1,90,0,0,0,|0%100~weapon-0~Weapons#
+38~WeaponHoldBow~100,1,90,0,0,0,|0%100~weapon-0~Weapons

@@ -69,6 +69,7 @@
     <Compile Include="OWO_7Days.cs" />
     <Compile Include="OWOSkin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SensationsDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

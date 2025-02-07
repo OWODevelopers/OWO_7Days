@@ -19,6 +19,7 @@ namespace OWOSkin
         public bool systemInitialized = false;
         private static bool heartBeatIsActive = false;
         private static bool swimmingIsActive = false;
+        private static bool stringBowIsActive = false;
         public static bool headUnderwater = false;
         public Dictionary<String, Sensation> FeedbackMap = new Dictionary<String, Sensation>();
 
@@ -185,11 +186,40 @@ namespace OWOSkin
             swimmingIsActive = false;
         }
 
+        public async Task BowFuncAsync()
+        {
+            while (stringBowIsActive)
+            {
+                Feel("WeaponHoldBow", 2);
+                await Task.Delay(1000);
+            }
+        }
+
+        public void StartBow()
+        {
+            if (stringBowIsActive) return;
+
+            stringBowIsActive = true;
+            BowFuncAsync();
+        }
+
+        public void StopBow()
+        {
+            stringBowIsActive = false;
+        }
+
+        public async Task FeelStringBow()
+        {
+            Plugin.owoSkin.Feel("WeaponStringBow", 2);
+            await Task.Delay(1000);
+            StartBow();
+        }
 
         public void StopAllHapticFeedback()
         {
             StopHeartBeat();
             StopSwimming();
+            StopBow();
 
             OWO.Stop();
         }

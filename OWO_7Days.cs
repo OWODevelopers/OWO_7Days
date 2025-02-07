@@ -11,6 +11,7 @@ using System.Runtime.Remoting.Lifetime;
 using System.Security.Policy;
 using OWOSkin;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace OWO_7Days
 {
@@ -360,6 +361,8 @@ namespace OWO_7Days
     [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
     public class owo_OnFireEventEntityAlive // V
     {
+        private static bool isStringBow;
+
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
         {
@@ -391,24 +394,66 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfRangedBurstShotStart:
+                        if (IsBowTrigger(__instance))
+                        {
+                            //Plugin.owoSkin.StopBow();
+                            Plugin.owoSkin.Feel("WeaponBow", 2);
+                            return;
+                        }
+                        Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, false), 2);
                         Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.holdingItem.Name);
                         break;
-                        // Para sensacion de tensar para los arcos
+
                     case MinEventTypes.onSelfRangedBurstShotEnd:
-                        if(__instance.inventory.holdingItem.Name == "gunBowT0PrimitiveBow")
-                            Plugin.owoSkin.LOG("RecoilBow: " + __instance.inventory.holdingItem.Name);
+                        Plugin.owoSkin.LOG("RecoilBow: " + __instance.inventory.holdingItem.Name);
+                        break;
+                    case MinEventTypes.onSelfPrimaryActionEnd:
+                            Plugin.owoSkin.StopBow();
+                            break;
+                    case MinEventTypes.onSelfPrimaryActionStart:
+                        if (IsBowTrigger(__instance))
+                            Plugin.owoSkin.FeelStringBow();
                         break;
                     case MinEventTypes.onSelfPrimaryActionRayMiss:
                     case MinEventTypes.onSelfPrimaryActionRayHit:
+
+                        if (IsGun(__instance)) return;
+                        Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, true), 2);
                         Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
+
                     case MinEventTypes.onSelfSecondaryActionRayMiss:
                     case MinEventTypes.onSelfSecondaryActionRayHit:
+                        if (IsGun(__instance)) return;
+                        Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, false), 2);
                         Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
+
                     default: break;
                 }
             }
+        }
+
+        private static bool IsGun(EntityAlive __instance)
+        {
+            return __instance.inventory.holdingItem.Name.Contains("gun");
+        }
+
+        private static bool IsBowTrigger(EntityAlive __instance)
+        {
+            return __instance.inventory.holdingItem.Name.Contains("Bow") && !__instance.inventory.holdingItem.Name.Contains("CrossBow");
+        }
+
+        private static string ConfigureRecoilName(EntityAlive __instance, bool isPrimary)
+        {
+            string name = __instance.inventory.holdingItem.Name;
+            if (name.Contains("Knuckles"))
+            {
+                name += isPrimary? "_L" : "_R";
+            }
+            string sensation = SensationsDictionary.RecoilSensations[name];
+            
+            return sensation;
         }
     }
 
