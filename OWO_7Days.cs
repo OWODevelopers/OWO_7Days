@@ -365,9 +365,7 @@ namespace OWO_7Days
 
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
-        {
-            Plugin.Log.LogInfo("FireEvent - " + _eventType);
-
+        {            
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
@@ -376,6 +374,7 @@ namespace OWO_7Days
             if (__instance is EntityPlayerLocal &&
                 !Traverse.Create(__instance).Field("isSpectator").GetValue<bool>())
             {
+                Plugin.Log.LogInfo("FireEvent - " + _eventType);
 
                 switch (_eventType)
                 {
@@ -491,7 +490,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteAction")]
-    public class owo_OnEatAndDrink // V
+    public class OWO_ExecuteAction // V
     {
         [HarmonyPostfix]
         public static void Postfix()
@@ -508,7 +507,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteInstantAction")]
-    public class owo_OnDrinkAndDrink
+    public class OWO_ExecuteInstantAction
     {
         [HarmonyPostfix]
         public static void Postfix() // ?
