@@ -39,7 +39,7 @@ namespace OWO_7Days
             Logger.LogMessage("Plugin OWO_7Days is loaded!");
             owoSkin = new OWOSkin.OWOSkin();
             // one startup heartbeat so you know the vest works correctly
-            owoSkin.Feel("HeartBeat", 0);
+            owoSkin.Feel("Heartbeat", 0);
             // patch all functions
             var harmony = new Harmony("owo.patch.7days");
             harmony.PatchAll();
@@ -127,7 +127,7 @@ namespace OWO_7Days
                 {
                     // Bloodloss
                     case EnumDamageTypes.BloodLoss:
-                        Plugin.owoSkin.Feel("BloodLoss", 3);
+                        Plugin.owoSkin.Feel("Blood Loss", 3);
                         break;
                     // electric
                     case EnumDamageTypes.Radiation:
@@ -185,7 +185,7 @@ namespace OWO_7Days
             {
                 return;
             }
-            Plugin.owoSkin.Feel("Recoil_R", 1);
+            Plugin.owoSkin.Feel("Pistol", 1);
         }
     }
 
@@ -271,7 +271,7 @@ namespace OWO_7Days
             switch (_eventType)
             {
                 case MinEventTypes.onSelfJump:
-                    Plugin.owoSkin.Feel("OnJump", 1);
+                    Plugin.owoSkin.Feel("On Jump", 1);
                     break;
 
                 case MinEventTypes.onSelfRespawn:
@@ -342,7 +342,7 @@ namespace OWO_7Days
             {
                 if (!Plugin.inventoryOpened)
                 {
-                    Plugin.owoSkin.Feel("InventoryOpen", 0);
+                    Plugin.owoSkin.Feel("Inventory Open", 0);
                     Plugin.inventoryOpened = true;
                     Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     return;
@@ -350,7 +350,7 @@ namespace OWO_7Days
 
                 if (Plugin.inventoryOpened)
                 {
-                    Plugin.owoSkin.Feel("InventoryClose", 0);
+                    Plugin.owoSkin.Feel("Inventory Close", 0);
                     Plugin.inventoryOpened = false;
                     Plugin.buttonPressTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     return;
@@ -384,12 +384,12 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfWaterSubmerge:
-                        Plugin.owoSkin.Feel("EnterWater", 1);
+                        Plugin.owoSkin.Feel("Water Enter", 1);
                         OWOSkin.OWOSkin.headUnderwater = true;
                         break;
 
                     case MinEventTypes.onSelfWaterSurface:
-                        Plugin.owoSkin.Feel("ExitWater", 1);
+                        Plugin.owoSkin.Feel("Water Exit", 1);
                         OWOSkin.OWOSkin.headUnderwater = false;
                         break;
 
@@ -397,7 +397,7 @@ namespace OWO_7Days
                         if (IsBowTrigger(__instance))
                         {
                             //Plugin.owoSkin.StopBow();
-                            Plugin.owoSkin.Feel("WeaponBow", 2);
+                            Plugin.owoSkin.Feel("Bow", 2);
                             return;
                         }
                         Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, false), 2);
@@ -458,7 +458,7 @@ namespace OWO_7Days
             if (sensation == null)
             {
                 Plugin.owoSkin.LOG("Non registered recoil: " + name);
-                return "WeaponPistol";
+                return "Pistol";
             }
 
             return sensation;

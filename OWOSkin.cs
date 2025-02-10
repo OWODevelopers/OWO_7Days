@@ -78,7 +78,7 @@ namespace OWOSkin
             {
                 suitDisabled = false;
                 LOG("OWO suit connected.");
-                Feel("HeartBeat",0);
+                Feel("Heartbeat",0);
             }
             if (suitDisabled) LOG("OWO is not enabled?!?!");
         }
@@ -147,7 +147,7 @@ namespace OWOSkin
         {
             while (heartBeatIsActive)
             {
-                Feel("HeartBeat", 0);
+                Feel("Heartbeat", 0);
                 await Task.Delay(1000);
             }
         }
@@ -190,7 +190,7 @@ namespace OWOSkin
         {
             while (stringBowIsActive)
             {
-                Feel("WeaponHoldBow", 2);
+                Feel("Hold Bow", 2);
                 await Task.Delay(1000);
             }
         }
