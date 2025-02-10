@@ -13,6 +13,7 @@ using OWOSkin;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace OWO_7Days
 {
@@ -492,17 +493,26 @@ namespace OWO_7Days
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteAction")]
     public class OWO_ExecuteAction // V
     {
+        static DateTime lastTime;
+
         [HarmonyPostfix]
-        public static void Postfix()
+        public static async void Postfix()
         {
+            var now = DateTime.UtcNow;
             Plugin.Log.LogInfo("ExecuteAction");
 
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
+            
+            if (lastTime == null || (now - lastTime).Seconds > .7)
+            {
+                await Task.Delay(400);
+                Plugin.owoSkin.Feel("Eating", 1);
+            }
+            lastTime = now;
 
-            Plugin.owoSkin.Feel("Eating", 1);
         }
     }
 
