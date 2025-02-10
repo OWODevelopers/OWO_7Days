@@ -17,7 +17,7 @@ namespace OWO_7Days
             {"gunShotgunT0PipeShotgun","WeaponShotgun"},
             {"gunShotgunT1DoubleBarrel","WeaponShotgun"},
             {"gunShotgunT2PumpShotgun","WeaponShotgun"},
-            {"gunShotgunT3AutoShotgun","WeaponAutoShotgun"},
+            {"gunShotgunT3AutoShotgun","WeaponShotgun"},
             {"gunMGT1AK47","WeaponAssault"},
             {"gunHandgunT3SMG5","WeaponSMG"},
             {"gunMGT0PipeMachineGun","WeaponAssault"},
@@ -33,8 +33,8 @@ namespace OWO_7Days
             {"gunBowT3CompoundBow","WeaponBow"},
             {"gunBowT1IronCrossbow","WeaponCrossbow"},
             {"gunBowT3CompoundCrossbow","WeaponCrossbow"},
-            {"gunBotT2JunkTurret","WeaponRifle"},            
-            {"gunBotT1JunkSledge","WeaponSledge"},            
+            {"gunBotT2JunkTurret","WeaponRifle"},            //Especial
+            {"gunBotT1JunkSledge","WeaponSledge"},            //Especial
             {"meleeToolRepairT3Nailgun","WeaponPistol"},
             {"meleeToolRepairT0StoneAxe","MeleeRightFast"},
             {"meleeToolRepairT0TazasStoneAxe","MeleeRightFast"},
