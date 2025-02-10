@@ -363,6 +363,7 @@ namespace OWO_7Days
     public class owo_OnFireEventEntityAlive // V
     {
         private static bool isStringBow;
+        private static DateTime lastBowShot;
 
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
@@ -396,8 +397,9 @@ namespace OWO_7Days
                     case MinEventTypes.onSelfRangedBurstShotStart:
                         if (IsBowTrigger(__instance))
                         {
-                            //Plugin.owoSkin.StopBow();
+                            Plugin.owoSkin.StopBow();
                             Plugin.owoSkin.Feel("Bow", 2);
+                            lastBowShot = DateTime.UtcNow;
                             return;
                         }
                         Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, false), 2);
@@ -407,12 +409,18 @@ namespace OWO_7Days
                     case MinEventTypes.onSelfRangedBurstShotEnd:
                         Plugin.owoSkin.LOG("RecoilBow: " + __instance.inventory.holdingItem.Name);
                         break;
-                    case MinEventTypes.onSelfPrimaryActionEnd:
-                            Plugin.owoSkin.StopBow();
-                            break;
                     case MinEventTypes.onSelfPrimaryActionStart:
-                        if (IsBowTrigger(__instance))
+                        
+                         if (IsBowTrigger(__instance))
+                        {
+                            Plugin.owoSkin.LOG("AAAAAAAAA " + lastBowShot.ToString());
+                            Plugin.owoSkin.LOG("AAAAAAAAAV " + (DateTime.UtcNow - lastBowShot).TotalMilliseconds);
+                            if ((DateTime.UtcNow - lastBowShot).TotalMilliseconds > 500)
                             Plugin.owoSkin.FeelStringBow();
+                        }
+                        break;
+                    case MinEventTypes.onSelfPrimaryActionEnd:
+                        Plugin.owoSkin.StopBow();
                         break;
                     case MinEventTypes.onSelfPrimaryActionRayMiss:
                     case MinEventTypes.onSelfPrimaryActionRayHit:
@@ -441,7 +449,11 @@ namespace OWO_7Days
 
         private static bool IsBowTrigger(EntityAlive __instance)
         {
-            return __instance.inventory.holdingItem.Name.Contains("Bow") && !__instance.inventory.holdingItem.Name.Contains("CrossBow");
+            Plugin.owoSkin.LOG("IsBowTriWgger: " + __instance.inventory.holdingItem.Name);
+            if ((__instance.inventory.holdingItem.Name.Contains("Crossbow")))
+                return false;
+            return __instance.inventory.holdingItem.Name.Contains("Bow");
+
         }
 
         private static string ConfigureRecoilName(EntityAlive __instance, bool isPrimary)
