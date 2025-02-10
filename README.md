@@ -23,10 +23,23 @@ This mod is based on the work of [Asienth](https://github.com/Astienth/7Days_bHa
 - Impact
 - Open and close inventory
 - Jump force and high jumps landing
-- Different weapons recoils
 - Starvation
 - Suffocation
 - Toxic
+- Punch
+- Melee
+- Two Handed Weapon
+- Motorized Weapon
+- Pistol
+- SMG
+- Rifle
+- Shotgun
+- Crossbow
+- Ready Bow
+- Shoot Bow
+- Assault Rifle
+- Rocket
+- Junk Sledge
 
 # Manual Connection
 If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt  
