@@ -416,7 +416,9 @@ namespace OWO_7Days
                             Plugin.owoSkin.LOG("AAAAAAAAA " + lastBowShot.ToString());
                             Plugin.owoSkin.LOG("AAAAAAAAAV " + (DateTime.UtcNow - lastBowShot).TotalMilliseconds);
                             if ((DateTime.UtcNow - lastBowShot).TotalMilliseconds > 500)
-                            Plugin.owoSkin.FeelStringBow();
+                                Plugin.owoSkin.FeelStringBow();
+                            else
+                                Plugin.owoSkin.StopBow();
                         }
                         break;
                     case MinEventTypes.onSelfPrimaryActionEnd:

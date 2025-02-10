@@ -211,7 +211,6 @@ namespace OWOSkin
         public async Task FeelStringBow()
         {
             Plugin.owoSkin.Feel("String Bow", 2);
-            await Task.Delay(1000);
             StartBow();
         }
 
