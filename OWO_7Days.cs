@@ -33,14 +33,10 @@ namespace OWO_7Days
 
         private void Awake()
         {
-            // Make my own logger so it can be accessed from the Tactsuit class
             Log = base.Logger;
-            // Plugin startup logic
             Logger.LogMessage("Plugin OWO_7Days is loaded!");
             owoSkin = new OWOSkin.OWOSkin();
-            // one startup heartbeat so you know the vest works correctly
             owoSkin.Feel("Heartbeat", 0);
-            // patch all functions
             var harmony = new Harmony("owo.patch.7days");
             harmony.PatchAll();
 
@@ -75,7 +71,7 @@ namespace OWO_7Days
     public class owo_OnUpdate
     {
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance) // V
+        public static void Postfix(EntityPlayerLocal __instance) 
         {
             Plugin.currentHealth = Traverse.Create(__instance).Field("oldHealth").GetValue<float>();
         }
@@ -85,11 +81,11 @@ namespace OWO_7Days
     public class owo_OnPause
     {
         [HarmonyPostfix]
-        public static void Postfix(GameManager __instance) // V
+        public static void Postfix(GameManager __instance) 
         {
             if (Traverse.Create(__instance).Field("gamePaused").GetValue<bool>() && !Plugin.isPaused)
             {
-                Plugin.owoSkin.StopAllHapticFeedback(); //este no da problemas
+                Plugin.owoSkin.StopAllHapticFeedback(); 
                 Plugin.startedHeart = false;
                 Plugin.isPaused = true;
             }
@@ -105,9 +101,8 @@ namespace OWO_7Days
     public class owo_OnDamage 
     {
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance, DamageSource _damageSource) // V
+        public static void Postfix(EntityPlayerLocal __instance, DamageSource _damageSource)
         {
-            Plugin.Log.LogInfo($"DamageEntity {_damageSource.damageSource} and {_damageSource.damageType}");
 
             if (Plugin.CantFeel())
             {
@@ -174,7 +169,7 @@ namespace OWO_7Days
     public class owo_OnFired
     {
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance) // ?
+        public static void Postfix(EntityPlayerLocal __instance)
         {
             if (Plugin.CantFeel())
             {
@@ -193,7 +188,7 @@ namespace OWO_7Days
     public class owo_OnEntityDeath
     {
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance) // V
+        public static void Postfix(EntityPlayerLocal __instance) 
         {
             if (Plugin.CantFeel())
             {
@@ -205,7 +200,7 @@ namespace OWO_7Days
                 return;
             }
             Plugin.startedHeart = false;
-            Plugin.owoSkin.StopAllHapticFeedback(); //el de muerte
+            Plugin.owoSkin.StopAllHapticFeedback(); 
             Plugin.owoSkin.Feel("Death", 4);
         }
     }
@@ -214,7 +209,7 @@ namespace OWO_7Days
     public class owo_OnUpdateEntity
     {
         [HarmonyPrefix]
-        public static void Prefix(EntityPlayerLocal __instance) // V
+        public static void Prefix(EntityPlayerLocal __instance) 
         {
             if (Plugin.CantFeel())
             {
@@ -226,7 +221,6 @@ namespace OWO_7Days
                 return;
             }
 
-            Plugin.Log.LogMessage("Health " + __instance.Health + " " + Plugin.currentHealth + " " + __instance.GetMaxHealth());
 
             if ((float)__instance.Health - Plugin.currentHealth > 5)
             {
@@ -235,7 +229,7 @@ namespace OWO_7Days
         }
 
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance) // V
+        public static void Postfix(EntityPlayerLocal __instance)
         {
 
             if (Plugin.owoSkin.suitDisabled)
@@ -252,7 +246,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
-    public class owo_OnFireEvent //V
+    public class owo_OnFireEvent
     {
         [HarmonyPostfix]
         public static void Postfix(EntityAlive __instance, MinEventTypes _eventType)
@@ -301,7 +295,7 @@ namespace OWO_7Days
     public class owo_OnSwimModeTick
     {
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance) // V
+        public static void Postfix(EntityPlayerLocal __instance)
         {
             if (Plugin.CantFeel())
             {
@@ -326,7 +320,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(PlayerAction), "Update")]
-    public class owo_OnInventoryInputPressed //V
+    public class owo_OnInventoryInputPressed 
     {
         [HarmonyPostfix]
         public static void Postfix(PlayerAction __instance)
@@ -360,7 +354,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityAlive), "FireEvent")]
-    public class owo_OnFireEventEntityAlive // V
+    public class owo_OnFireEventEntityAlive 
     {
         private static bool isStringBow;
         private static DateTime lastBowShot;
@@ -376,7 +370,6 @@ namespace OWO_7Days
             if (__instance is EntityPlayerLocal &&
                 !Traverse.Create(__instance).Field("isSpectator").GetValue<bool>())
             {
-                Plugin.Log.LogInfo("FireEvent - " + _eventType);
 
                 switch (_eventType)
                 {
@@ -385,12 +378,10 @@ namespace OWO_7Days
                         break;
 
                     case MinEventTypes.onSelfWaterSubmerge:
-                        Plugin.owoSkin.Feel("Water Enter", 1);
                         OWOSkin.OWOSkin.headUnderwater = true;
                         break;
 
                     case MinEventTypes.onSelfWaterSurface:
-                        Plugin.owoSkin.Feel("Water Exit", 1);
                         OWOSkin.OWOSkin.headUnderwater = false;
                         break;
 
@@ -403,18 +394,11 @@ namespace OWO_7Days
                             return;
                         }
                         Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, false), 2);
-                        Plugin.owoSkin.LOG("Recoil: " + __instance.inventory.holdingItem.Name);
-                        break;
-
-                    case MinEventTypes.onSelfRangedBurstShotEnd:
-                        Plugin.owoSkin.LOG("RecoilBow: " + __instance.inventory.holdingItem.Name);
                         break;
                     case MinEventTypes.onSelfPrimaryActionStart:
                         
                          if (IsBowTrigger(__instance))
                         {
-                            Plugin.owoSkin.LOG("AAAAAAAAA " + lastBowShot.ToString());
-                            Plugin.owoSkin.LOG("AAAAAAAAAV " + (DateTime.UtcNow - lastBowShot).TotalMilliseconds);
                             if ((DateTime.UtcNow - lastBowShot).TotalMilliseconds > 500)
                                 Plugin.owoSkin.FeelStringBow();
                             else
@@ -429,14 +413,12 @@ namespace OWO_7Days
 
                         if (IsGun(__instance)) return;
                         Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, true), 2);
-                        Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
 
                     case MinEventTypes.onSelfSecondaryActionRayMiss:
                     case MinEventTypes.onSelfSecondaryActionRayHit:
                         if (IsGun(__instance)) return;
                         Plugin.owoSkin.Feel(ConfigureRecoilName(__instance, false), 2);
-                        Plugin.owoSkin.LOG("Melee: " + __instance.inventory.holdingItem.Name);
                         break;
 
                     default: break;
@@ -451,7 +433,6 @@ namespace OWO_7Days
 
         private static bool IsBowTrigger(EntityAlive __instance)
         {
-            Plugin.owoSkin.LOG("IsBowTriWgger: " + __instance.inventory.holdingItem.Name);
             if ((__instance.inventory.holdingItem.Name.Contains("Crossbow")))
                 return false;
             return __instance.inventory.holdingItem.Name.Contains("Bow");
@@ -471,7 +452,6 @@ namespace OWO_7Days
 
             if (sensation == null)
             {
-                Plugin.owoSkin.LOG("Non registered recoil: " + name);
                 return "Pistol";
             }
 
@@ -485,7 +465,7 @@ namespace OWO_7Days
     public class owo_OnFallImpact
     {
         [HarmonyPrefix]
-        public static void Prefix(EntityPlayerLocal __instance, float speed) // V
+        public static void Prefix(EntityPlayerLocal __instance, float speed)
         {
             if (Plugin.owoSkin.suitDisabled)
             {
@@ -505,7 +485,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(ItemActionEat), "ExecuteAction")]
-    public class OWO_ExecuteAction // V
+    public class OWO_ExecuteAction 
     {
         static DateTime lastTime;
 
@@ -513,7 +493,6 @@ namespace OWO_7Days
         public static async void Postfix()
         {
             var now = DateTime.UtcNow;
-            Plugin.Log.LogInfo("ExecuteAction");
 
             if (Plugin.owoSkin.suitDisabled)
             {
@@ -534,9 +513,8 @@ namespace OWO_7Days
     public class OWO_ExecuteInstantAction
     {
         [HarmonyPostfix]
-        public static void Postfix() // ?
+        public static void Postfix() 
         {
-            Plugin.Log.LogInfo("ExecuteInstantAction");
 
             if (Plugin.owoSkin.suitDisabled)
             {
@@ -551,7 +529,7 @@ namespace OWO_7Days
     public class owo_OnAppQuit
     {
         [HarmonyPostfix]
-        public static void Postfix() // V
+        public static void Postfix() 
         {
             if (Plugin.owoSkin.suitDisabled)
             {
@@ -564,7 +542,7 @@ namespace OWO_7Days
     }
 
     [HarmonyPatch(typeof(EntityPlayerLocal), "LateUpdate")]
-    public class owo_OnLateUpdate // V
+    public class owo_OnLateUpdate
     {
         [HarmonyPostfix]
         public static void Postfix(EntityPlayerLocal __instance)
@@ -584,14 +562,14 @@ namespace OWO_7Days
     public class owo_OnDestroy
     {
         [HarmonyPostfix]
-        public static void Postfix(EntityPlayerLocal __instance) // V
+        public static void Postfix(EntityPlayerLocal __instance)
         {
             if (Plugin.owoSkin.suitDisabled)
             {
                 return;
             }
 
-            Plugin.owoSkin.StopAllHapticFeedback(); //Este no es
+            Plugin.owoSkin.StopAllHapticFeedback();
             Plugin.startedHeart = false;
             Plugin.playerHasSpawned = false;
         }
