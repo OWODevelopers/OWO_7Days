@@ -10,8 +10,8 @@ namespace OWO_7Days
     {
 
         public static Dictionary<String, String> RecoilSensations = new Dictionary<String, String> {
-            {"gunHandgunT2Magnum44","Pistol"},
-            {"gunHandgunT3DesertVulture","Pistol"},
+            {"gunHandgunT2Magnum44","HeavyPistol"},
+            {"gunHandgunT3DesertVulture","HeavyPistol"},
             {"gunHandgunT0PipePistol","Pistol"},
             {"gunHandgunT1Pistol","Pistol"},
             {"gunShotgunT0PipeShotgun","Shotgun"},

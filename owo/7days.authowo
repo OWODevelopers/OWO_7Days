@@ -36,4 +36,5 @@
 35~Assault~100,3,90,0,0,0,Hit|0%53,5%56,4%100~weapon-3~Weapons#
 36~Rifle~100,2,100,0,0,0,Hit|0%100,4%100,5%100~weapon-3~Weapons#
 37~Hold Bow~31,7,100,0,0,0,Stress|0%63,4%100,1%42,5%63,6%100,7%100~weapon-5~Weapons#
-38~Junk Sledge~59,3,100,0,0,9,Hit|0%100,4%100,1%100,5%100&19,8,100,0,500,0,Reload|0%100,5%100,1%100,4%100~weapon-4~Weapons
+38~Junk Sledge~59,3,100,0,0,9,Hit|0%100,4%100,1%100,5%100&19,8,100,0,500,0,Reload|0%100,5%100,1%100,4%100~weapon-4~Weapons#
+39~Heavy Pistol~100,2,100,0,0,0,Hit|4%100~weapon-2~Weapons
