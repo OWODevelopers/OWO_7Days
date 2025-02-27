@@ -1,5 +1,5 @@
 # 7 Days to Die OWO mod
-This mod is based on the work of [Asienth](https://github.com/Astienth/7Days_bHaptics).
+This mod is based on the work of [Astienth](https://github.com/Astienth/7Days_bHaptics).
 
 # Installation
 - Download [BepinEx_v5.4.21]( https://github.com/BepInEx/BepInEx/releases/tag/v5.4.21)
